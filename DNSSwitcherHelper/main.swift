@@ -1,32 +1,31 @@
 import Foundation
 
-func changeDNSSettings(primaryDNS: String, secondaryDNS: String) {
-    let task = Process()
-    task.executableURL = URL(fileURLWithPath: "/usr/sbin/networksetup")
-    
-    let service = "Wi-Fi" // Change this to the appropriate network service name
-    task.arguments = ["-setdnsservers", service, primaryDNS, secondaryDNS]
-    
-    do {
-        try task.run()
-        task.waitUntilExit()
-        
-        if task.terminationStatus == 0 {
-            print("DNS settings successfully changed.")
-        } else {
-            print("Error: Failed to change DNS settings.")
-        }
-    } catch {
-        print("Error: \(error.localizedDescription)")
+final class HelperDelegate: NSObject, NSXPCListenerDelegate {
+    func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
+        connection.exportedInterface = NSXPCInterface(with: DNSHelperProtocol.self)
+        connection.exportedObject = HelperImpl()
+        connection.resume()
+        return true
     }
 }
 
-guard CommandLine.argc == 3 else {
-    print("Usage: DNSSwitcherHelper <primaryDNS> <secondaryDNS>")
-    exit(1)
+final class HelperImpl: NSObject, DNSHelperProtocol {
+    func helperVersion(reply: @escaping (String) -> Void) {
+        reply("1")
+    }
+
+    func setDNS(serviceID: String, servers: [String], reply: @escaping (Error?) -> Void) {
+        reply(NSError(domain: "fr.fotozik.DNSSwitcher.helper", code: 1,
+                      userInfo: [NSLocalizedDescriptionKey: "Not implemented yet"]))
+    }
+
+    func listServices(reply: @escaping ([[String: String]]) -> Void) {
+        reply([])
+    }
 }
 
-let primaryDNS = CommandLine.arguments[1]
-let secondaryDNS = CommandLine.arguments[2]
-
-changeDNSSettings(primaryDNS: primaryDNS, secondaryDNS: secondaryDNS)
+let listener = NSXPCListener(machServiceName: "fr.fotozik.DNSSwitcher.helper")
+let helperDelegate = HelperDelegate()
+listener.delegate = helperDelegate
+listener.resume()
+RunLoop.main.run()
