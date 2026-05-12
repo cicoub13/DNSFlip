@@ -12,9 +12,20 @@ final class AppStore: ObservableObject {
     @Published var helperError: String?
     @Published var networkServices: [[String: String]] = []
 
+    @Published var activeProfileID: UUID? {
+        didSet { UserDefaults.standard.set(activeProfileID?.uuidString, forKey: "activeProfileID") }
+    }
+    @Published var selectedServiceID: String? {
+        didSet { UserDefaults.standard.set(selectedServiceID, forKey: "selectedServiceID") }
+    }
+
     private let daemonService = SMAppService.daemon(plistName: "fr.fotozik.DNSSwitcher.helper.plist")
 
     init() {
+        _activeProfileID = Published(initialValue:
+            UserDefaults.standard.string(forKey: "activeProfileID").flatMap(UUID.init))
+        _selectedServiceID = Published(initialValue:
+            UserDefaults.standard.string(forKey: "selectedServiceID"))
         refreshHelperStatus()
     }
 
@@ -56,5 +67,32 @@ final class AppStore: ObservableObject {
         } catch {
             helperError = error.localizedDescription
         }
+    }
+
+    func applyProfile(_ profile: DNSProfile) async {
+        guard helperStatus == .enabled else {
+            helperError = "Helper non installé — ouvre Réglages → Helper"
+            return
+        }
+        if networkServices.isEmpty {
+            await fetchServices()
+        }
+        guard let serviceID = effectiveServiceID() else {
+            helperError = "Aucun service réseau disponible"
+            return
+        }
+        do {
+            try await helperClient.setDNS(serviceID: serviceID, servers: profile.servers)
+            activeProfileID = profile.id
+            helperError = nil
+        } catch {
+            helperError = error.localizedDescription
+        }
+    }
+
+    private func effectiveServiceID() -> String? {
+        if let id = selectedServiceID { return id }
+        if let id = networkServices.first(where: { $0["active"] == "1" })?["id"] { return id }
+        return networkServices.first?["id"]
     }
 }
