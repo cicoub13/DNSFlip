@@ -91,7 +91,8 @@ open ~/Library/Developer/Xcode/DerivedData/DNSSwitcher-aggpdragwtjkzxfwcbyrwurck
 1. **SourceKit false positives** : "Cannot find type X in scope" après chaque création de fichier → faire un build pour résoudre (ne pas créer de doublons dans pbxproj)
 2. `.keyboardShortcut(.comma)` n'existe pas → utiliser `.buttonStyle(.borderless)`
 3. `SMAppService.unregister()` est async sur macOS 26 → `try await`
-4. `BundleProgram` en path relatif dans launchd plist peut poser problème pour les LaunchDaemons via SMAppService
+4. `BundleProgram` doit être `Contents/MacOS/DNSSwitcherHelper` (relatif à `DNSSwitcher.app/`) — sans `Contents/` launchd cherche `DNSSwitcher.app/MacOS/…` → EX_CONFIG (78)
+5. Si le build échoue avec "unsealed contents present in the bundle root", supprimer les `default.profraw` laissés par le profiling dans le bundle
 
 ---
 

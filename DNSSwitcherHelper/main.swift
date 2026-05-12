@@ -15,12 +15,16 @@ final class HelperImpl: NSObject, DNSHelperProtocol {
     }
 
     func setDNS(serviceID: String, servers: [String], reply: @escaping (Error?) -> Void) {
-        reply(NSError(domain: "fr.fotozik.DNSSwitcher.helper", code: 1,
-                      userInfo: [NSLocalizedDescriptionKey: "Not implemented yet"]))
+        do {
+            try DNSConfigurator.setDNS(serviceID: serviceID, servers: servers)
+            reply(nil)
+        } catch {
+            reply(error)
+        }
     }
 
     func listServices(reply: @escaping ([[String: String]]) -> Void) {
-        reply([])
+        reply(DNSConfigurator.listServices())
     }
 }
 

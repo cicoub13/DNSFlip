@@ -1,85 +1,90 @@
-# Plan — DNSSwitcher v1 (suite)
+# Plan — DNSSwitcher v1
 
-## Contexte
+## État
 
-Phase 3 (helper SMAppService + XPC hello-world) est **construite** mais le test end-to-end **échoue** au niveau de launchd : le helper spawn mais crash immédiatement avec `last exit code = 78: EX_CONFIG`.
-
-L'helper binary fonctionne quand lancé manuellement (depuis `Contents/MacOS/`), l'XPC Mach port est bien enregistré (`0x18fdcf`), mais launchd ne peut pas le démarrer correctement — problème de configuration plist ou de sandbox.
-
-**Symptômes** :
-- `launchctl print system/fr.fotozik.DNSSwitcher.helper` → `state = spawn failed`, `exit code = 78`
-- `ps aux | grep DNSSwitcherHelper` → le processus apparaît brièvement puis disparaît
-- Le helper tourne correctement si lancé manuellement (`./DNSSwitcherHelper` depuis `Contents/MacOS/`)
+- **Phase 1–2** : projet Xcode, targets, SMAppService ✅
+- **Phase 3** : helper LaunchDaemon + XPC hello-world ✅ (v1 confirmé via UI)
+- **Phase 4** : DNSConfigurator.swift — SCPreferences ← **en cours**
+- **Phase 5** : NetworkInspector.swift — SCDynamicStore + NWPathMonitor
+- **Phase 6** : UI finale (MenuBarContentView + SettingsView + ProfileEditorView)
+- **Phase 7** : Script build-and-notarize.sh
 
 ---
 
-## Diagnostic à faire
+## Fix Phase 3 (post-mortem)
 
-1. **Vérifier les logs launchd** :
-   ```bash
-   log show --predicate 'process == "DNSSwitcherHelper" OR processImagePath contains "DNSSwitcherHelper"' --level error --last 5m
-   ```
-
-2. **Tester sans sandbox** (launchd peut être plus strict sur les paths) :
-   - Le `BundleProgram` dans le plist est `MacOS/DNSSwitcherHelper` (relatif au bundle)
-   - Vérifier que c'est le bon path pour launchd (qui voit le bundle depuis `/`)
-   - launchd peut avoir un problème avec les paths relatifs pour les LaunchDaemons via SMAppService
-
-3. **Ajouter un exit handler** dans le helper pour comprendre exactement où il crash
+`BundleProgram` était `MacOS/DNSSwitcherHelper` mais launchd résout ce chemin depuis la racine du bundle (`DNSSwitcher.app/`). Le binaire est à `Contents/MacOS/DNSSwitcherHelper` → corrigé.
 
 ---
 
-## Prochaines étapes
+## Phase 4 — DNSConfigurator.swift
 
-### Diagnostic (par agent dedicated)
-- [ ] `log show` pour capturer l'erreur exacte du crash
-- [ ] Vérifier le sandbox profile de launchd
-- [ ] Tester `BundleProgram` avec un chemin absolu vs relatif
+Implémenter la vraie logique DNS dans le helper via `SCPreferences` / `SystemConfiguration.framework`.
 
-### Si le helper marche (XPC hello-world validé)
-- [ ] Phase 4 : SCPreferences DNS writing (DNSConfigurator.swift)
-- [ ] Phase 5 : SCDynamicStore NetworkInspector
-- [ ] Phase 6 : UI finale (MenuBarContentView + SettingsView)
-- [ ] Phase 7 : Signature + notarisation
+### Objectif
 
-### Si le plist launchd est le problème
-- [ ] Corriger le launchd plist (chemin absolu pour BundleProgram ?)
-- [ ] Vérifier les permissions du bundle
-- [ ] Vérifier `AssociatedBundleIdentifiers`
+`setDNS(serviceID:servers:reply:)` dans `HelperImpl` doit :
+1. Ouvrir `SCPreferences` avec authorization (le helper tourne en root → pas besoin d'AuthorizationRef côté helper)
+2. Localiser le service réseau par `serviceID` (UUID du service SCPreferences)
+3. Écrire les serveurs DNS dans `State:/Network/Service/<id>/DNS` et `Setup:/Network/Service/<id>/DNS`
+4. Appeler `SCPreferencesApplyChanges` + `SCPreferencesCommitChanges`
 
----
+### Fichiers à créer / modifier
 
-## Fichiers actuels critiques
-
-| Fichier | Rôle |
+| Fichier | Action |
 |---|---|
-| `DNSSwitcherHelper/main.swift` | XPC hello-world stub (helperVersion = "1", setDNS = error) |
-| `DNSSwitcher/IPC/HelperClient.swift` | Client XPC async (utilise `DNSHelperProtocol`) |
-| `DNSSwitcher/IPC/DNSHelperProtocol.swift` | @objc protocole partagé |
-| `DNSSwitcher/Models/AppStore.swift` | SMAppService install/uninstall + ping |
-| `DNSSwitcher/DNSSwitcherApp.swift` | MenuBarExtra + Settings window opener |
-| `DNSSwitcherHelper/fr.fotozik.DNSSwitcher.helper.plist` | LaunchDaemon plist dans le bundle |
-| `DNSSwitcherHelper/Info.plist` | Embarqué via `-sectcreate __TEXT __info_plist` (SMAuthorizedClients) |
+| `DNSSwitcherHelper/DNSConfigurator.swift` | Nouveau — logique SCPreferences |
+| `DNSSwitcherHelper/main.swift` | Modifier `setDNS` → déléguer à `DNSConfigurator` |
+| `DNSSwitcher.xcodeproj` | Ajouter `SystemConfiguration.framework` au target helper |
+
+### API SCPreferences (rappel)
+
+```swift
+// Ouvrir les préférences système (root → pas d'auth requise)
+let prefs = SCPreferencesCreate(nil, "DNSSwitcherHelper" as CFString, nil)
+
+// Chemin du service DNS
+let path = "NetworkServices/\(serviceID)/DNS" as CFString
+let dnsDict: CFDictionary = ["ServerAddresses": servers] as CFDictionary
+
+SCPreferencesPathSetValue(prefs, path, dnsDict)
+SCPreferencesCommitChanges(prefs)
+SCPreferencesApplyChanges(prefs)
+```
+
+### Aussi : listServices
+
+`listServices(reply:)` doit retourner les services réseau actifs :
+- Utiliser `SCNetworkServiceCopyAll` ou lire `NetworkServices` dans SCPreferences
+- Retourner `[["id": uuid, "name": name, "active": "1/0"]]`
 
 ---
 
-## Architecture actuelle (Phase 3)
+## Phase 5 — NetworkInspector.swift
+
+- `SCDynamicStoreCreate` pour observer les changements DNS en temps réel
+- `NWPathMonitor` pour détecter l'interface active
+- Notifier l'app via XPC (ou `DistributedNotificationCenter`)
+
+---
+
+## Architecture actuelle (Phase 3 terminée)
 
 ```
 DNSSwitcher.app
 ├── Contents/MacOS/
 │   ├── DNSSwitcher         (SwiftUI MenuBarExtra)
-│   └── DNSSwitcherHelper  (XPC daemon root, -sectcreate __TEXT __info_plist)
+│   └── DNSSwitcherHelper  (XPC daemon root)
 └── Contents/Library/LaunchDaemons/
-    └── fr.fotozik.DNSSwitcher.helper.plist  (Label + BundleProgram + MachServices)
+    └── fr.fotozik.DNSSwitcher.helper.plist
 
 App GUI ──NSXPCConnection──▶ Helper (root, Mach "fr.fotozik.DNSSwitcher.helper")
 ```
 
 **Protocole XPC** (`DNSHelperProtocol`) :
-- `helperVersion(reply:)` → String
-- `setDNS(serviceID:servers:reply:)` → Error?
-- `listServices(reply:)` → [[String:String]]
+- `helperVersion(reply:)` → String ✅
+- `setDNS(serviceID:servers:reply:)` → Error? (stub → Phase 4)
+- `listServices(reply:)` → [[String:String]] (stub → Phase 4)
 
 ---
 

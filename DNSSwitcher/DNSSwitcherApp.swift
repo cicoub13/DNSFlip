@@ -125,12 +125,24 @@ private struct HelperSettingsTab: View {
     private var actionButtons: some View {
         switch store.helperStatus {
         case .enabled:
-            HStack {
-                Button("Tester la connexion") {
-                    Task { await store.pingHelper() }
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Button("Tester la connexion") {
+                        Task { await store.pingHelper() }
+                    }
+                    Button("Lister les services") {
+                        Task { await store.fetchServices() }
+                    }
+                    Button("Désinstaller", role: .destructive) {
+                        Task { await store.uninstallHelper() }
+                    }
                 }
-                Button("Désinstaller", role: .destructive) {
-                    Task { await store.uninstallHelper() }
+                if !store.networkServices.isEmpty {
+                    ForEach(store.networkServices, id: \.self) { svc in
+                        Text("\(svc["name"] ?? "?")  (\(svc["id"] ?? "?"))  actif:\(svc["active"] ?? "?")")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         case .requiresApproval:

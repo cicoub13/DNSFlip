@@ -10,6 +10,7 @@ final class AppStore: ObservableObject {
     @Published var helperStatus: SMAppService.Status = .notRegistered
     @Published var helperVersion: String?
     @Published var helperError: String?
+    @Published var networkServices: [[String: String]] = []
 
     private let daemonService = SMAppService.daemon(plistName: "fr.fotozik.DNSSwitcher.helper.plist")
 
@@ -46,6 +47,14 @@ final class AppStore: ObservableObject {
             helperVersion = try await helperClient.helperVersion()
         } catch {
             helperVersion = nil
+        }
+    }
+
+    func fetchServices() async {
+        do {
+            networkServices = try await helperClient.listServices()
+        } catch {
+            helperError = error.localizedDescription
         }
     }
 }
