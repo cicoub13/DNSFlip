@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C823002A2FB601060024770A /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = C82300292FB601060024770A /* Sparkle */; };
 		C8D96D8629D85F0200F22B71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8D96D8529D85F0200F22B71 /* Assets.xcassets */; };
 		C8D96D8929D85F0200F22B71 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8D96D8829D85F0200F22B71 /* Preview Assets.xcassets */; };
 		C8D96D9429D85F0200F22B71 /* DNSFlipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96D9329D85F0200F22B71 /* DNSFlipTests.swift */; };
@@ -16,8 +17,8 @@
 		C8F0A00100000000003E7445 /* DNSFlipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0A00200000000003E7445 /* DNSFlipApp.swift */; };
 		C8F0A00300000000003E7445 /* DNSProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0A00400000000003E7445 /* DNSProfile.swift */; };
 		C8F0A00500000000003E7445 /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0A00600000000003E7445 /* ProfileStore.swift */; };
-		C8FA000100000000003E7445 /* com.bootstrap.DNSFlip.helper.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */; };
-		C8FA000200000000003E7445 /* DNSFlipHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = C8D96DB829D8634900F22B71 /* DNSSwitchHelper */; };
+		C8FA000100000000003E7445 /* com.bootstrap.DNSFlip.helper.plist in CopyLaunchDaemonPlist */ = {isa = PBXBuildFile; fileRef = C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */; };
+		C8FA000200000000003E7445 /* DNSSwitchHelper in CopyHelperBinary */ = {isa = PBXBuildFile; fileRef = C8D96DB829D8634900F22B71 /* DNSSwitchHelper */; };
 		C8FA000300000000003E7445 /* DNSHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */; };
 		C8FA000400000000003E7445 /* DNSHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */; };
 		C8FA001200000000003E7445 /* HelperClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA001000000000003E7445 /* HelperClient.swift */; };
@@ -66,7 +67,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				C8FA000200000000003E7445 /* DNSFlipHelper in CopyFiles */,
+				C8FA000200000000003E7445 /* DNSSwitchHelper in CopyHelperBinary */,
 			);
 			name = CopyHelperBinary;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,10 +75,10 @@
 		C8FA000700000000003E7445 /* CopyLaunchDaemonPlist */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "Contents/Library/LaunchDaemons";
+			dstPath = Contents/Library/LaunchDaemons;
 			dstSubfolderSpec = 1;
 			files = (
-				C8FA000100000000003E7445 /* com.bootstrap.DNSFlip.helper.plist in CopyFiles */,
+				C8FA000100000000003E7445 /* com.bootstrap.DNSFlip.helper.plist in CopyLaunchDaemonPlist */,
 			);
 			name = CopyLaunchDaemonPlist;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,12 +95,13 @@
 		C8D96D9929D85F0200F22B71 /* DNSFlipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DNSFlipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D96D9D29D85F0200F22B71 /* DNSFlipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSFlipUITests.swift; sourceTree = "<group>"; };
 		C8D96D9F29D85F0200F22B71 /* DNSFlipUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSFlipUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		C8D96DB829D8634900F22B71 /* DNSSwitchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DNSSwitchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D96DB829D8634900F22B71 /* DNSSwitchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = DNSSwitchHelper; path = DNSFlipHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D96DBA29D8634900F22B71 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C8E0001100000000003E7445 /* DNSFlipHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DNSFlipHelper.entitlements; sourceTree = "<group>"; };
 		C8F0A00200000000003E7445 /* DNSFlipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSFlipApp.swift; sourceTree = "<group>"; };
 		C8F0A00400000000003E7445 /* DNSProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSProfile.swift; sourceTree = "<group>"; };
 		C8F0A00600000000003E7445 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
-		C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "com.bootstrap.DNSFlip.helper.plist"; sourceTree = "<group>"; };
+		C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = com.bootstrap.DNSFlip.helper.plist; sourceTree = "<group>"; };
 		C8FA000900000000003E7445 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSHelperProtocol.swift; sourceTree = "<group>"; };
 		C8FA001000000000003E7445 /* HelperClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClient.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C823002A2FB601060024770A /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +144,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C82300272FB5FFD70024770A /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				C8SC001400000000003E7445 /* SystemConfiguration.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		C8D96D7529D85F0200F22B71 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +160,7 @@
 				C8D96D9C29D85F0200F22B71 /* DNSFlipUITests */,
 				C8D96DB929D8634900F22B71 /* DNSFlipHelper */,
 				C8D96D7F29D85F0200F22B71 /* Products */,
+				C82300272FB5FFD70024770A /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -174,25 +186,6 @@
 				C8FA000B00000000003E7445 /* IPC */,
 			);
 			path = DNSFlip;
-			sourceTree = "<group>";
-		};
-		C8FA000B00000000003E7445 /* IPC */ = {
-			isa = PBXGroup;
-			children = (
-				C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */,
-				C8FA001000000000003E7445 /* HelperClient.swift */,
-			);
-			path = IPC;
-			sourceTree = "<group>";
-		};
-		C8F0A00700000000003E7445 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				C8F0A00400000000003E7445 /* DNSProfile.swift */,
-				C8F0A00600000000003E7445 /* ProfileStore.swift */,
-				C8FA001100000000003E7445 /* AppStore.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		C8D96D8729D85F0200F22B71 /* Preview Content */ = {
@@ -227,8 +220,28 @@
 				C8SC001600000000003E7445 /* DNSConfigurator.swift */,
 				C8FA000900000000003E7445 /* Info.plist */,
 				C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */,
+				C8E0001100000000003E7445 /* DNSFlipHelper.entitlements */,
 			);
 			path = DNSFlipHelper;
+			sourceTree = "<group>";
+		};
+		C8F0A00700000000003E7445 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C8F0A00400000000003E7445 /* DNSProfile.swift */,
+				C8F0A00600000000003E7445 /* ProfileStore.swift */,
+				C8FA001100000000003E7445 /* AppStore.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C8FA000B00000000003E7445 /* IPC */ = {
+			isa = PBXGroup;
+			children = (
+				C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */,
+				C8FA001000000000003E7445 /* HelperClient.swift */,
+			);
+			path = IPC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,6 +356,9 @@
 				Base,
 			);
 			mainGroup = C8D96D7529D85F0200F22B71;
+			packageReferences = (
+				C82300282FB601060024770A /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			productRefGroup = C8D96D7F29D85F0200F22B71 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -582,22 +598,25 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DNSFlip/DNSFlip.entitlements;
-				CODE_SIGN_IDENTITY = "043E45DB8A108B80CDF02FDB35242D0EBA2BA99A";
+				CODE_SIGN_IDENTITY = 043E45DB8A108B80CDF02FDB35242D0EBA2BA99A;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DNSFlip/Preview Content\"";
 				DEVELOPMENT_TEAM = 3X7B4F6R56;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Cyril Beslay";
+				INFOPLIST_KEY_SUFeedURL = "https://raw.githubusercontent.com/cicoub13/DNSFlip/main/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "jrpkB50tbgfq6ffEwymV644gxtloTQ7XTR2r/S8tqWc=";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -612,22 +631,25 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DNSFlip/DNSFlip.entitlements;
-				CODE_SIGN_IDENTITY = "043E45DB8A108B80CDF02FDB35242D0EBA2BA99A";
+				CODE_SIGN_IDENTITY = 043E45DB8A108B80CDF02FDB35242D0EBA2BA99A;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DNSFlip/Preview Content\"";
 				DEVELOPMENT_TEAM = 3X7B4F6R56;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2025 Cyril Beslay";
+				INFOPLIST_KEY_SUFeedURL = "https://raw.githubusercontent.com/cicoub13/DNSFlip/main/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "jrpkB50tbgfq6ffEwymV644gxtloTQ7XTR2r/S8tqWc=";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -645,7 +667,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -663,7 +685,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -679,7 +701,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -695,7 +717,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -707,14 +729,21 @@
 		C8D96DBD29D8634900F22B71 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "043E45DB8A108B80CDF02FDB35242D0EBA2BA99A";
+				CODE_SIGN_ENTITLEMENTS = DNSFlipHelper/DNSFlipHelper.entitlements;
+				CODE_SIGN_IDENTITY = 043E45DB8A108B80CDF02FDB35242D0EBA2BA99A;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3X7B4F6R56;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "-sectcreate __TEXT __info_plist $(SRCROOT)/DNSFlipHelper/Info.plist";
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(SRCROOT)/DNSFlipHelper/Info.plist",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip.helper;
 				PRODUCT_NAME = DNSFlipHelper;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -725,14 +754,21 @@
 		C8D96DBE29D8634900F22B71 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "043E45DB8A108B80CDF02FDB35242D0EBA2BA99A";
+				CODE_SIGN_ENTITLEMENTS = DNSFlipHelper/DNSFlipHelper.entitlements;
+				CODE_SIGN_IDENTITY = 043E45DB8A108B80CDF02FDB35242D0EBA2BA99A;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3X7B4F6R56;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "-sectcreate __TEXT __info_plist $(SRCROOT)/DNSFlipHelper/Info.plist";
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(SRCROOT)/DNSFlipHelper/Info.plist",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip.helper;
 				PRODUCT_NAME = DNSFlipHelper;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -789,6 +825,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C82300282FB601060024770A /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C82300292FB601060024770A /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C82300282FB601060024770A /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C8D96D7629D85F0200F22B71 /* Project object */;
 }

@@ -1,6 +1,9 @@
 import SwiftUI
 import ServiceManagement
 import Network
+#if canImport(Sparkle)
+import Sparkle
+#endif
 
 // MARK: - App entry point
 
@@ -106,6 +109,9 @@ private struct ProfileMenuItem: View {
 private struct SettingsView: View {
     @EnvironmentObject var store: AppStore
     @State private var selectedTab = 0
+    #if canImport(Sparkle)
+    @StateObject private var sparkle = SparkleUpdaterViewModel()
+    #endif
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -122,10 +128,28 @@ private struct SettingsView: View {
                 .environmentObject(store)
                 .tabItem { Label("Helper", systemImage: "gearshape") }
                 .tag(2)
+            AboutTab()
+                #if canImport(Sparkle)
+                .environmentObject(sparkle)
+                #endif
+                .tabItem { Label("À propos", systemImage: "info.circle") }
+                .tag(3)
         }
         .frame(minWidth: 540, idealWidth: 600, minHeight: 420, idealHeight: 480)
     }
 }
+
+#if canImport(Sparkle)
+private final class SparkleUpdaterViewModel: ObservableObject {
+    private let controller = SPUStandardUpdaterController(
+        startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+    @Published var canCheckForUpdates = false
+
+    init() { canCheckForUpdates = controller.updater.canCheckForUpdates }
+
+    func checkForUpdates() { controller.updater.checkForUpdates() }
+}
+#endif
 
 // MARK: - Profiles tab
 
@@ -448,6 +472,38 @@ private struct HelperTab: View {
             Button("Installer le helper") { Task { await store.installHelper() } }
                 .disabled(store.isWorkingOnHelper)
         }
+    }
+}
+
+// MARK: - About tab
+
+private struct AboutTab: View {
+    #if canImport(Sparkle)
+    @EnvironmentObject private var sparkle: SparkleUpdaterViewModel
+    #endif
+
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
+    }
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable()
+                .frame(width: 80, height: 80)
+            VStack(spacing: 4) {
+                Text("DNSFlip").font(.title2.weight(.semibold))
+                Text("Version \(appVersion)").foregroundStyle(.secondary)
+            }
+            Text("© 2026 Cyril Beslay").font(.callout).foregroundStyle(.secondary)
+            #if canImport(Sparkle)
+            Button("Vérifier les mises à jour…") { sparkle.checkForUpdates() }
+                .disabled(!sparkle.canCheckForUpdates)
+            #endif
+            Spacer()
+        }
+        .padding(30)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

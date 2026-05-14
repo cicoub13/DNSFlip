@@ -4,10 +4,10 @@
 
 - **Phase 1–2** : projet Xcode, targets, SMAppService ✅
 - **Phase 3** : helper LaunchDaemon + XPC hello-world ✅ (v1 confirmé via UI)
-- **Phase 4** : DNSConfigurator.swift — SCPreferences ← **en cours**
+- **Phase 4** : DNSConfigurator.swift — SCPreferences ✅ (commit f314d3e)
 - **Phase 5** : NetworkInspector.swift — SCDynamicStore + NWPathMonitor
 - **Phase 6** : UI finale (MenuBarContentView + SettingsView + ProfileEditorView)
-- **Phase 7** : Script build-and-notarize.sh
+- **Phase 7** : Pipeline de distribution ✅ (voir ci-dessous)
 
 ---
 
@@ -85,6 +85,59 @@ App GUI ──NSXPCConnection──▶ Helper (root, Mach "com.bootstrap.DNSFlip
 - `helperVersion(reply:)` → String ✅
 - `setDNS(serviceID:servers:reply:)` → Error? (stub → Phase 4)
 - `listServices(reply:)` → [[String:String]] (stub → Phase 4)
+
+---
+
+## Phase 7 — Pipeline de distribution ✅
+
+Fichiers créés :
+- `scripts/build-and-notarize.sh` — build Release, export, DMG, notarisation, staple, EdDSA Sparkle
+- `scripts/ExportOptions.plist` — Developer ID, Manual signing, Team 3X7B4F6R56
+- `scripts/update-appcast.py` — MAJ appcast.xml à chaque release
+- `.github/workflows/release.yml` — CI déclenché sur tag `v*.*.*`
+- `appcast.xml` — feed Sparkle (rempli automatiquement par le CI)
+- `CHANGELOG.md`, `LICENSE`, `README.md`
+
+### Étapes one-shot à faire avant la première release
+
+1. **Apple API Key** : https://appstoreconnect.apple.com → Keys → "Developer" → télécharger `.p8`
+   ```bash
+   xcrun notarytool store-credentials "DNSFlip-AC-API" \
+     --key ~/.appstoreconnect/AuthKey_XXX.p8 \
+     --key-id XXXXXXXXXX \
+     --issuer XXXXXXXX-XXXX-...
+   ```
+2. **Sparkle** : ajouter via Xcode → File → Add Package → `https://github.com/sparkle-project/Sparkle`  
+   Puis générer les clés EdDSA :
+   ```bash
+   # Trouver generate_keys dans DerivedData après le premier build avec Sparkle
+   find ~/Library/Developer/Xcode/DerivedData -name generate_keys | head -1
+   ./generate_keys   # → affiche la clé publique à ajouter dans pbxproj:
+                     #   INFOPLIST_KEY_SUPublicEDKey = "clé ici"
+   ```
+3. **Télécharger sign_update** :
+   ```bash
+   # Depuis la release Sparkle (même version que SPM) :
+   # Extraire sign_update → bin/sign_update
+   chmod +x bin/sign_update
+   ```
+4. **AppIcon** : fournir les images PNG dans `DNSFlip/Assets.xcassets/AppIcon.appiconset/`  
+   (16, 32, 128, 256, 512 @ 1x/2x — 10 tailles)
+5. **Secrets GitHub** (Settings → Secrets → Actions) :
+   - `AC_API_KEY_P8` — `base64 -i AuthKey_XXX.p8 | pbcopy`
+   - `AC_API_KEY_ID`, `AC_API_ISSUER_ID`
+   - `BUILD_CERT_P12` — exporter le cert Developer ID depuis le Trousseau en .p12 + base64
+   - `BUILD_CERT_PASSWORD`, `KEYCHAIN_PASSWORD`
+   - `HOMEBREW_TAP_TOKEN` (optionnel) — PAT GitHub sur le repo `cicoub13/homebrew-tap`
+6. **Repo homebrew-tap** : créer `cicoub13/homebrew-tap` sur GitHub  
+   (le workflow y pousse le Cask automatiquement)
+
+### Release publique
+
+```bash
+./scripts/build-and-notarize.sh          # test local
+git tag v1.0.0 && git push origin v1.0.0 # déclenche le CI
+```
 
 ---
 

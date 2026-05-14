@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+  <channel>
+    <title>DNSFlip</title>
+    <link>https://github.com/cicoub13/DNSFlip</link>
+    <description>DNSFlip updates</description>
+    <!-- Items are added automatically by scripts/update-appcast.py on each release -->
+  </channel>
+</rss>

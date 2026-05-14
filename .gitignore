@@ -13,3 +13,14 @@ DerivedData/
 
 # Outils tiers
 .serena/
+
+# Distribution
+bin/sign_update
+bin/generate_keys
+bin/generate_appcast
+bin/BinaryDelta
+build/*.dmg
+build/*.sha256
+build/*.xcarchive
+build/export/
+build/sparkle.env
