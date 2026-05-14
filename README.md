@@ -2,7 +2,8 @@
 
 A macOS menu bar app to switch DNS server profiles instantly.
 
-<!-- Add a screenshot here once v1.0.0 is ready -->
+|![DNSFlip](DNSFlip_1.png)|![DNSFlip](DNSFlip_2.png)|![DNSFlip](DNSFlip_3.png)|
+|---|---|---|
 
 ## Features
 
