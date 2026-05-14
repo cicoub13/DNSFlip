@@ -115,25 +115,29 @@ private struct SettingsView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
+            GeneralTab()
+                .environmentObject(store)
+                .tabItem { Label("Général", systemImage: "gearshape") }
+                .tag(0)
             ProfilesTab()
                 .environmentObject(store)
                 .environmentObject(store.profileStore)
                 .tabItem { Label("Profils", systemImage: "list.bullet") }
-                .tag(0)
+                .tag(1)
             NetworkTab(selectedTab: $selectedTab)
                 .environmentObject(store)
                 .tabItem { Label("Réseau", systemImage: "network") }
-                .tag(1)
+                .tag(2)
             HelperTab()
                 .environmentObject(store)
-                .tabItem { Label("Helper", systemImage: "gearshape") }
-                .tag(2)
+                .tabItem { Label("Helper", systemImage: "gearshape.2") }
+                .tag(3)
             AboutTab()
                 #if canImport(Sparkle)
                 .environmentObject(sparkle)
                 #endif
                 .tabItem { Label("À propos", systemImage: "info.circle") }
-                .tag(3)
+                .tag(4)
         }
         .frame(minWidth: 540, idealWidth: 600, minHeight: 420, idealHeight: 480)
     }
@@ -150,6 +154,23 @@ private final class SparkleUpdaterViewModel: ObservableObject {
     func checkForUpdates() { controller.updater.checkForUpdates() }
 }
 #endif
+
+// MARK: - General tab
+
+private struct GeneralTab: View {
+    @EnvironmentObject var store: AppStore
+
+    var body: some View {
+        Form {
+            Toggle("Démarrer au login", isOn: Binding(
+                get: { store.launchAtLogin },
+                set: { val in Task { await store.setLaunchAtLogin(val) } }
+            ))
+        }
+        .formStyle(.grouped)
+        .padding(20)
+    }
+}
 
 // MARK: - Profiles tab
 

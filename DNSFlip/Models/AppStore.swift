@@ -22,6 +22,11 @@ final class AppStore: ObservableObject {
     }
 
     private let daemonService = SMAppService.daemon(plistName: "com.bootstrap.DNSFlip.helper.plist")
+    private let loginService = SMAppService.mainApp
+
+    var launchAtLogin: Bool {
+        loginService.status == .enabled
+    }
 
     init() {
         _activeProfileID = Published(initialValue:
@@ -29,6 +34,19 @@ final class AppStore: ObservableObject {
         _selectedServiceID = Published(initialValue:
             UserDefaults.standard.string(forKey: "selectedServiceID"))
         refreshHelperStatus()
+    }
+
+    func setLaunchAtLogin(_ enabled: Bool) async {
+        do {
+            if enabled {
+                try loginService.register()
+            } else {
+                try await loginService.unregister()
+            }
+        } catch {
+            helperError = error.localizedDescription
+        }
+        objectWillChange.send()
     }
 
     func refreshHelperStatus() {
