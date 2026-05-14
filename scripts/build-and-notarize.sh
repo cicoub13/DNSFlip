@@ -21,7 +21,7 @@ set -euo pipefail
 SCHEME="DNSFlip"
 CONFIG="Release"
 TEAM_ID="3X7B4F6R56"
-CERT_HASH="043E45DB8A108B80CDF02FDB35242D0EBA2BA99A"
+CERT_HASH="CE3A55BF33414E397601B24F5A8245DC43EACCB5"
 KEYCHAIN_PROFILE="DNSFlip-AC-API"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -29,9 +29,8 @@ ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$ROOT_DIR"
 
 # ── Read version ──────────────────────────────────────────────────────────────
-VERSION=$(xcrun agvtool what-marketing-version -terse1 2>/dev/null | head -1 \
-  || grep -m1 'MARKETING_VERSION' DNSFlip.xcodeproj/project.pbxproj \
-       | sed 's/.*= //;s/;//;s/ //')
+VERSION=$(grep -m1 'MARKETING_VERSION' DNSFlip.xcodeproj/project.pbxproj \
+  | sed 's/.*MARKETING_VERSION = //;s/;//;s/[[:space:]]//g')
 echo "→ Building DNSFlip v${VERSION}"
 
 mkdir -p build
@@ -48,17 +47,30 @@ xcodebuild archive \
   -configuration "$CONFIG" \
   -archivePath "build/DNSFlip.xcarchive" \
   CODE_SIGN_STYLE=Manual \
+  CODE_SIGN_IDENTITY="Developer ID Application" \
   DEVELOPMENT_TEAM="$TEAM_ID" \
   -quiet
 
 # ── Export ────────────────────────────────────────────────────────────────────
 echo "→ Exporting archive"
-xcodebuild -exportArchive \
-  -archivePath "build/DNSFlip.xcarchive" \
-  -exportPath "build/export" \
-  -exportOptionsPlist "scripts/ExportOptions.plist"
+rm -rf "build/export"
+mkdir -p "build/export"
+cp -R "build/DNSFlip.xcarchive/Products/Applications/DNSFlip.app" "build/export/"
 
 APP="build/export/DNSFlip.app"
+
+# ── Re-sign Sparkle components (SPM builds leave Versions/B with dev cert) ────
+echo "→ Re-signing Sparkle nested components"
+SPARKLE="$APP/Contents/Frameworks/Sparkle.framework/Versions/B"
+for item in \
+    "$SPARKLE/XPCServices/Downloader.xpc" \
+    "$SPARKLE/XPCServices/Installer.xpc" \
+    "$SPARKLE/Updater.app" \
+    "$SPARKLE/Autoupdate" \
+    "$SPARKLE"; do
+  [ -e "$item" ] && codesign --force --sign "$CERT_HASH" --timestamp --options runtime "$item"
+done
+codesign --force --sign "$CERT_HASH" --timestamp --options runtime "$APP"
 
 # ── Verify signature ──────────────────────────────────────────────────────────
 echo "→ Verifying signature"
