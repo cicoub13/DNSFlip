@@ -11,6 +11,8 @@ final class AppStore: ObservableObject {
     @Published var helperVersion: String?
     @Published var helperError: String?
     @Published var networkServices: [[String: String]] = []
+    @Published var isFetchingServices: Bool = false
+    @Published var isWorkingOnHelper: Bool = false
 
     @Published var activeProfileID: UUID? {
         didSet { UserDefaults.standard.set(activeProfileID?.uuidString, forKey: "activeProfileID") }
@@ -34,16 +36,20 @@ final class AppStore: ObservableObject {
     }
 
     func installHelper() async {
+        isWorkingOnHelper = true
+        defer { isWorkingOnHelper = false }
         do {
             try daemonService.register()
             refreshHelperStatus()
-            await pingHelper()
+            await pingInternal()
         } catch {
             helperError = error.localizedDescription
         }
     }
 
     func uninstallHelper() async {
+        isWorkingOnHelper = true
+        defer { isWorkingOnHelper = false }
         do {
             try await daemonService.unregister()
             refreshHelperStatus()
@@ -54,6 +60,12 @@ final class AppStore: ObservableObject {
     }
 
     func pingHelper() async {
+        isWorkingOnHelper = true
+        defer { isWorkingOnHelper = false }
+        await pingInternal()
+    }
+
+    private func pingInternal() async {
         do {
             helperVersion = try await helperClient.helperVersion()
         } catch {
@@ -62,6 +74,8 @@ final class AppStore: ObservableObject {
     }
 
     func fetchServices() async {
+        isFetchingServices = true
+        defer { isFetchingServices = false }
         do {
             networkServices = try await helperClient.listServices()
         } catch {
