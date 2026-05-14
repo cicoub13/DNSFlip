@@ -9,6 +9,7 @@ enum DNSError: LocalizedError {
     case setFailed
     case commit
     case apply
+    case invalidInput
 
     var errorDescription: String? {
         switch self {
@@ -19,6 +20,7 @@ enum DNSError: LocalizedError {
         case .setFailed:              return "Cannot set DNS configuration"
         case .commit:                 return "Cannot commit preferences"
         case .apply:                  return "Cannot apply preferences"
+        case .invalidInput:           return "Invalid input"
         }
     }
 }

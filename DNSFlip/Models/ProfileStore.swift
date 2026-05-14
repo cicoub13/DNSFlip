@@ -3,7 +3,6 @@ import Combine
 
 final class ProfileStore: ObservableObject {
     @Published var profiles: [DNSProfile] = []
-    @Published var activeProfileID: UUID?
 
     private let storageURL: URL
 

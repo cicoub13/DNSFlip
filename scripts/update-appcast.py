@@ -27,7 +27,8 @@ def build_item(args):
     item = ET.Element("item")
     ET.SubElement(item, "title").text = f"Version {args.version}"
     ET.SubElement(item, "pubDate").text = args.pubdate
-    ET.SubElement(item, sparkle("version")).text = args.version.replace(".", "")[-4:] or "1"
+    major, minor, patch = (int(x) for x in args.version.split("."))
+    ET.SubElement(item, sparkle("version")).text = str(major * 10000 + minor * 100 + patch)
     ET.SubElement(item, sparkle("shortVersionString")).text = args.version
     ET.SubElement(item, sparkle("minimumSystemVersion")).text = args.min_os
     enc = ET.SubElement(item, "enclosure")

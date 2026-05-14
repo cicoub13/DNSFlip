@@ -270,7 +270,6 @@
 				C8E958CF29D9B2E9003E7445 /* Sources */,
 				C8D96D7B29D85F0200F22B71 /* Frameworks */,
 				C8D96D7C29D85F0200F22B71 /* Resources */,
-				C8D96DBF29D863AE00F22B71 /* ShellScript */,
 				C8FA000600000000003E7445 /* CopyHelperBinary */,
 				C8FA000700000000003E7445 /* CopyLaunchDaemonPlist */,
 			);
@@ -415,25 +414,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		C8D96DBF29D863AE00F22B71 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C8D96D8B29D85F0200F22B71 /* Sources */ = {
@@ -649,7 +629,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DNSFlip/DNSFlip.entitlements;
-				CODE_SIGN_IDENTITY = 043E45DB8A108B80CDF02FDB35242D0EBA2BA99A;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Cyril Beslay (3X7B4F6R56)";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -773,7 +753,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = DNSFlipHelper/DNSFlipHelper.entitlements;
-				CODE_SIGN_IDENTITY = 043E45DB8A108B80CDF02FDB35242D0EBA2BA99A;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Cyril Beslay (3X7B4F6R56)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3X7B4F6R56;

@@ -5,6 +5,7 @@ final class HelperClient {
 
     private func makeConnection() -> NSXPCConnection {
         let c = NSXPCConnection(machServiceName: "com.bootstrap.DNSFlip.helper", options: .privileged)
+        try? c.setCodeSigningRequirement("anchor apple generic and identifier \"com.bootstrap.DNSFlip.helper\" and certificate leaf[subject.OU] = \"3X7B4F6R56\"")
         c.remoteObjectInterface = NSXPCInterface(with: DNSHelperProtocol.self)
         c.invalidationHandler = { [weak self] in self?.connection = nil }
         c.interruptionHandler = { [weak self] in self?.connection = nil }
