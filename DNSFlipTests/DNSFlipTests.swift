@@ -88,14 +88,15 @@ final class DNSFlipTests: XCTestCase {
 
     // MARK: - AppStore.effectiveServiceID
 
+    private func svc(_ id: String, active: Bool) -> NetworkService {
+        NetworkService(["id": id, "name": id, "active": active ? "1" : "0"])!
+    }
+
     @MainActor
     func testEffectiveServiceIDPrefersSelected() {
         let store = AppStore()
         store.selectedServiceID = "svc-1"
-        store.networkServices = [
-            ["id": "svc-1", "active": "0"],
-            ["id": "svc-2", "active": "1"],
-        ]
+        store.networkServices = [svc("svc-1", active: false), svc("svc-2", active: true)]
         XCTAssertEqual(store.effectiveServiceID(), "svc-1")
     }
 
@@ -103,10 +104,7 @@ final class DNSFlipTests: XCTestCase {
     func testEffectiveServiceIDFallsBackToActive() {
         let store = AppStore()
         store.selectedServiceID = nil
-        store.networkServices = [
-            ["id": "svc-1", "active": "0"],
-            ["id": "svc-2", "active": "1"],
-        ]
+        store.networkServices = [svc("svc-1", active: false), svc("svc-2", active: true)]
         XCTAssertEqual(store.effectiveServiceID(), "svc-2")
     }
 
@@ -114,10 +112,7 @@ final class DNSFlipTests: XCTestCase {
     func testEffectiveServiceIDFallsBackToFirst() {
         let store = AppStore()
         store.selectedServiceID = nil
-        store.networkServices = [
-            ["id": "svc-1", "active": "0"],
-            ["id": "svc-2", "active": "0"],
-        ]
+        store.networkServices = [svc("svc-1", active: false), svc("svc-2", active: false)]
         XCTAssertEqual(store.effectiveServiceID(), "svc-1")
     }
 

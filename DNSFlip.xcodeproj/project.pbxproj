@@ -24,6 +24,9 @@
 		C8FA000400000000003E7445 /* DNSHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */; };
 		C8FA001200000000003E7445 /* HelperClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA001000000000003E7445 /* HelperClient.swift */; };
 		C8FA001300000000003E7445 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA001100000000003E7445 /* AppStore.swift */; };
+		C8V1001200000000003E7445 /* MenuBarViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8V1001100000000003E7445 /* MenuBarViews.swift */; };
+		C8V1001400000000003E7445 /* SettingsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8V1001300000000003E7445 /* SettingsViews.swift */; };
+		C8V1001600000000003E7445 /* ProfileEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8V1001500000000003E7445 /* ProfileEditorView.swift */; };
 		C8SC001500000000003E7445 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8SC001400000000003E7445 /* SystemConfiguration.framework */; };
 		C8SC001700000000003E7445 /* DNSConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8SC001600000000003E7445 /* DNSConfigurator.swift */; };
 /* End PBXBuildFile section */
@@ -103,6 +106,9 @@
 		C8F0A00400000000003E7445 /* DNSProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSProfile.swift; sourceTree = "<group>"; };
 		C8F0A00600000000003E7445 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
 		C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = com.bootstrap.DNSFlip.helper.plist; sourceTree = "<group>"; };
+		C8V1001100000000003E7445 /* MenuBarViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViews.swift; sourceTree = "<group>"; };
+		C8V1001300000000003E7445 /* SettingsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViews.swift; sourceTree = "<group>"; };
+		C8V1001500000000003E7445 /* ProfileEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditorView.swift; sourceTree = "<group>"; };
 		C8FA000900000000003E7445 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSHelperProtocol.swift; sourceTree = "<group>"; };
 		C8FA001000000000003E7445 /* HelperClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClient.swift; sourceTree = "<group>"; };
@@ -197,6 +203,9 @@
 				C8D96D8A29D85F0200F22B71 /* DNSFlip.entitlements */,
 				C8D96D8729D85F0200F22B71 /* Preview Content */,
 				C8F0A00200000000003E7445 /* DNSFlipApp.swift */,
+				C8V1001100000000003E7445 /* MenuBarViews.swift */,
+				C8V1001300000000003E7445 /* SettingsViews.swift */,
+				C8V1001500000000003E7445 /* ProfileEditorView.swift */,
 				C8F0A00700000000003E7445 /* Models */,
 				C8FA000B00000000003E7445 /* IPC */,
 				C8AF000300000001003E7445 /* Localizable.strings */,
@@ -448,6 +457,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8F0A00100000000003E7445 /* DNSFlipApp.swift in Sources */,
+				C8V1001200000000003E7445 /* MenuBarViews.swift in Sources */,
+				C8V1001400000000003E7445 /* SettingsViews.swift in Sources */,
+				C8V1001600000000003E7445 /* ProfileEditorView.swift in Sources */,
 				C8F0A00300000000003E7445 /* DNSProfile.swift in Sources */,
 				C8F0A00500000000003E7445 /* ProfileStore.swift in Sources */,
 				C8FA000300000000003E7445 /* DNSHelperProtocol.swift in Sources */,

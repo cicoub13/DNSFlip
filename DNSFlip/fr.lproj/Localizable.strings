@@ -75,3 +75,5 @@
 /* Errors */
 "Helper non installé — ouvre Réglages → Helper" = "Helper non installé — ouvre Réglages → Helper";
 "Aucun service réseau disponible" = "Aucun service réseau disponible";
+"Impossible de se connecter au helper." = "Impossible de se connecter au helper.";
+"Le helper ne répond pas." = "Le helper ne répond pas.";

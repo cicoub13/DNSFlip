@@ -20,30 +20,55 @@ final class HelperClient {
 
     func helperVersion() async throws -> String {
         guard let proxy = proxy() else { throw HelperError.connectionFailed }
-        return try await withCheckedThrowingContinuation { cont in
-            proxy.helperVersion { version in cont.resume(returning: version) }
+        return try await withTimeout {
+            try await withCheckedThrowingContinuation { cont in
+                proxy.helperVersion { version in cont.resume(returning: version) }
+            }
         }
     }
 
     func setDNS(serviceID: String, servers: [String]) async throws {
         guard let proxy = proxy() else { throw HelperError.connectionFailed }
-        try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
-            proxy.setDNS(serviceID: serviceID, servers: servers) { error in
-                if let error { cont.resume(throwing: error) }
-                else { cont.resume() }
+        try await withTimeout {
+            try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
+                proxy.setDNS(serviceID: serviceID, servers: servers) { error in
+                    if let error { cont.resume(throwing: error) }
+                    else { cont.resume() }
+                }
             }
         }
     }
 
     func listServices() async throws -> [[String: String]] {
         guard let proxy = proxy() else { throw HelperError.connectionFailed }
-        return try await withCheckedThrowingContinuation { cont in
-            proxy.listServices { services in cont.resume(returning: services) }
+        return try await withTimeout {
+            try await withCheckedThrowingContinuation { cont in
+                proxy.listServices { services in cont.resume(returning: services) }
+            }
         }
+    }
+}
+
+private func withTimeout<T: Sendable>(seconds: Double = 5, _ work: @escaping @Sendable () async throws -> T) async throws -> T {
+    try await withThrowingTaskGroup(of: T.self) { group in
+        group.addTask { try await work() }
+        group.addTask {
+            try await Task.sleep(for: .seconds(seconds))
+            throw HelperError.timeout
+        }
+        let result = try await group.next()!
+        group.cancelAll()
+        return result
     }
 }
 
 enum HelperError: LocalizedError {
     case connectionFailed
-    var errorDescription: String? { "Impossible de se connecter au helper." }
+    case timeout
+    var errorDescription: String? {
+        switch self {
+        case .connectionFailed: return String(localized: "Impossible de se connecter au helper.")
+        case .timeout: return String(localized: "Le helper ne répond pas.")
+        }
+    }
 }

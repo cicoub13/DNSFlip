@@ -34,6 +34,27 @@ final class ProfileStore: ObservableObject {
         }
     }
 
+    func add(_ profile: DNSProfile) {
+        profiles.append(profile)
+        save()
+    }
+
+    func update(_ profile: DNSProfile) {
+        guard let idx = profiles.firstIndex(where: { $0.id == profile.id }) else { return }
+        profiles[idx] = profile
+        save()
+    }
+
+    func delete(id: UUID) {
+        profiles.removeAll { $0.id == id }
+        save()
+    }
+
+    func move(fromOffsets source: IndexSet, toOffset destination: Int) {
+        profiles.move(fromOffsets: source, toOffset: destination)
+        save()
+    }
+
     private func load() {
         guard FileManager.default.fileExists(atPath: storageURL.path) else {
             profiles = DNSProfile.defaults

@@ -2,6 +2,19 @@ import Foundation
 import Combine
 import ServiceManagement
 
+struct NetworkService: Identifiable, Hashable {
+    let id: String
+    let name: String
+    let active: Bool
+
+    init?(_ dict: [String: String]) {
+        guard let id = dict["id"], let name = dict["name"] else { return nil }
+        self.id = id
+        self.name = name
+        self.active = dict["active"] == "1"
+    }
+}
+
 @MainActor
 final class AppStore: ObservableObject {
     let profileStore = ProfileStore()
@@ -10,9 +23,10 @@ final class AppStore: ObservableObject {
     @Published var helperStatus: SMAppService.Status = .notRegistered
     @Published var helperVersion: String?
     @Published var helperError: String?
-    @Published var networkServices: [[String: String]] = []
+    @Published var networkServices: [NetworkService] = []
     @Published var isFetchingServices: Bool = false
     @Published var isWorkingOnHelper: Bool = false
+    @Published var launchAtLogin: Bool = false
 
     @Published var activeProfileID: UUID? {
         didSet { UserDefaults.standard.set(activeProfileID?.uuidString, forKey: "activeProfileID") }
@@ -24,15 +38,12 @@ final class AppStore: ObservableObject {
     private let daemonService = SMAppService.daemon(plistName: "com.bootstrap.DNSFlip.helper.plist")
     private let loginService = SMAppService.mainApp
 
-    var launchAtLogin: Bool {
-        loginService.status == .enabled
-    }
-
     init() {
         _activeProfileID = Published(initialValue:
             UserDefaults.standard.string(forKey: "activeProfileID").flatMap(UUID.init))
         _selectedServiceID = Published(initialValue:
             UserDefaults.standard.string(forKey: "selectedServiceID"))
+        _launchAtLogin = Published(initialValue: SMAppService.mainApp.status == .enabled)
         refreshHelperStatus()
     }
 
@@ -46,7 +57,7 @@ final class AppStore: ObservableObject {
         } catch {
             helperError = error.localizedDescription
         }
-        objectWillChange.send()
+        launchAtLogin = loginService.status == .enabled
     }
 
     func refreshHelperStatus() {
@@ -95,7 +106,7 @@ final class AppStore: ObservableObject {
         isFetchingServices = true
         defer { isFetchingServices = false }
         do {
-            networkServices = try await helperClient.listServices()
+            networkServices = try await helperClient.listServices().compactMap(NetworkService.init)
         } catch {
             helperError = error.localizedDescription
         }
@@ -124,7 +135,7 @@ final class AppStore: ObservableObject {
 
     func effectiveServiceID() -> String? {
         if let id = selectedServiceID { return id }
-        if let id = networkServices.first(where: { $0["active"] == "1" })?["id"] { return id }
-        return networkServices.first?["id"]
+        if let svc = networkServices.first(where: { $0.active }) { return svc.id }
+        return networkServices.first?.id
     }
 }
