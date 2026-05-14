@@ -1,103 +1,77 @@
 # AGENTS.md — DNSFlip
 
-Instructions pour tout agent qui travaille sur ce projet.
+Instructions for any agent working on this project.
 
-## Projet概述
+## Overview
 
-DNSFlip est une app macOS menu bar (SwiftUI `MenuBarExtra`) qui permute les serveurs DNS système via un helper root LaunchDaemon + XPC. Distribué hors Mac App Store (Developer ID + notarisation).
-
-**Phase actuelle** : Phase 3 terminée (build OK) mais test XPC end-to-end échoue (launchd spawn fail `EX_CONFIG`). Voir `PLAN.md` pour le diagnostic en cours.
+DNSFlip is a macOS menu bar app (SwiftUI `MenuBarExtra`) that switches system DNS servers via a root LaunchDaemon helper over XPC. Distributed outside the Mac App Store (Developer ID + notarization).
 
 ---
 
-## Règles fondamentales
+## Code signing rules
 
-### Signature de code
-- **Team ID** : `3X7B4F6R56` (pas le CN du cert qui montre `5R6326P5M7`)
-- **Certificat valide** : hash `043E45DB8A108B80CDF02FDB35242D0EBA2BA99A`
-- `SMAuthorizedClients` dans le helper Info.plist **doit** utiliser `certificate leaf[subject.OU] = "3X7B4F6R56"` (vérifie le champ OU, pas le CN)
-- `CODE_SIGN_STYLE = Manual` requis sur macOS 26 (pas `Automatic` qui cherche "Mac Development")
-- L'autre cert Apple Development (`D5044FB2D37A75E57708ADDA1D5C93F081CFADC3`) est expiré — à supprimer du Keychain
+- **Team ID** : `3X7B4F6R56`
+- `SMAuthorizedClients` in the helper's embedded Info.plist **must** use `certificate leaf[subject.OU] = "3X7B4F6R56"` (checks the OU field, not the CN)
+- `CODE_SIGN_STYLE = Manual` required on macOS 26 (not `Automatic`, which looks for "Mac Development")
 
-### Architecture helper
-- Helper = LaunchDaemon (pas SMJobBless)
-- Le plist `com.bootstrap.DNSFlip.helper.plist` est un **vrai fichier** copié dans `Contents/Library/LaunchDaemons/`
-- L'Info.plist est **embarqué** dans le binaire via `-sectcreate __TEXT __info_plist`
-- `SMAuthorizedClients` dans l'Info.plist embarqué du binaire (pas dans le launchd plist)
+## Helper architecture
 
-### SMAppService
-- `SMAppService.daemon(plistName:)` pour enregistrer le LaunchDaemon
-- `unregister()` est **async** sur macOS 26 SDK
-- Ouvrir Login Items : `SMAppService.openSystemSettingsLoginItems()`
+- Helper = LaunchDaemon (not SMJobBless)
+- `com.bootstrap.DNSFlip.helper.plist` is a real file copied to `Contents/Library/LaunchDaemons/`
+- Info.plist is **embedded** in the binary via `-sectcreate __TEXT __info_plist`
+- `SMAuthorizedClients` lives in the embedded Info.plist of the binary (not in the launchd plist)
 
-### XPC
-- `NSXPCConnection(machServiceName:options: .privileged)` pour connexion depuis app → helper root
-- Protocole `@objc` + `NSSecureCoding` requis pour les types transmis
-- `DNSHelperProtocol` est compilé dans **les deux targets** (app et helper)
-- `invalidationHandler` / `interruptionHandler` sur la connexion pour gérer les reconnexions
+## SMAppService
+
+- `SMAppService.daemon(plistName:)` to register the LaunchDaemon
+- `unregister()` is **async** on macOS 26 SDK
+- Open Login Items: `SMAppService.openSystemSettingsLoginItems()`
+
+## XPC
+
+- `NSXPCConnection(machServiceName:options: .privileged)` for app → root helper connection
+- `@objc` protocol + `NSSecureCoding` required for transmitted types
+- `DNSHelperProtocol` is compiled into **both targets** (app and helper)
+- `invalidationHandler` / `interruptionHandler` on the connection for reconnection handling
 
 ---
 
-## Commandes utiles
+## Useful commands
 
 ```bash
 # Build
 xcodebuild -scheme DNSFlip -configuration Debug build
 
-# Vérifier signature helper
+# Verify helper signature
 codesign -dv DNSFlip.app/Contents/MacOS/DNSFlipHelper
 
-# Vérifier structure bundle
+# Verify bundle structure
 ls -la DNSFlip.app/Contents/MacOS/
 ls -la DNSFlip.app/Contents/Library/LaunchDaemons/
 
-# Vérifier Info.plist embarqué
+# Verify embedded Info.plist
 otool -s __TEXT __info_plist DNSFlip.app/Contents/MacOS/DNSFlipHelper
 
-# État launchd
+# launchd status
 launchctl print system/com.bootstrap.DNSFlip.helper
 
-# Logs launchd
+# launchd logs
 log show --predicate 'process == "DNSFlipHelper" OR subsystem == "com.apple.servicemanagement"' --level error --last 5m
-
-# Ouvrir app
-open ~/Library/Developer/Xcode/DerivedData/DNSFlip-aggpdragwtjkzxfwcbyrwurckmvq/Build/Products/Debug/DNSFlip.app
 ```
 
 ---
 
-## Prochaines tâches (PLAN.md)
+## Known pitfalls
 
-1. **Diagnostic XPC** : launchd spawn fail avec `EX_CONFIG` — le helper tourne manuellement mais pas via SMAppService
-2. **Phase 4** : DNSConfigurator.swift avec SCPreferences, SystemConfiguration.framework dans pbxproj
-3. **Phase 5** : NetworkInspector.swift (SCDynamicStore + NWPathMonitor)
-4. **Phase 6** : UI MenuBarContentView (liste profils + DNS actif) + SettingsView (tabs Profils/Helper/À propos) + ProfileEditorView
-5. **Phase 7** : Script build-and-notarize.sh
-
----
-
-## Fichiers modifiés récemment
-
-- `DNSFlip/DNSFlipApp.swift` — MenuBarExtra avec `.menuBarExtraStyle(.menu)` + fenêtre Settings manuelle (SettingsLink ne marche pas depuis MenuBarExtra)
-- `DNSFlip/IPC/HelperClient.swift` — client XPC async
-- `DNSFlipHelper/main.swift` — XPC listener hello-world (setDNS/listServices stubs)
-- `DNSFlipHelper/Info.plist` — embarqué dans le binaire, `SMAuthorizedClients` avec Team ID 3X7B4F6R56
-- `DNSFlipHelper/com.bootstrap.DNSFlip.helper.plist` — copied to LaunchDaemons/ dans le bundle
+1. **SourceKit false positives** : "Cannot find type X in scope" after creating a new file → run a build to resolve (do not create duplicates in pbxproj)
+2. `SMAppService.unregister()` is async on macOS 26 → `try await`
+3. `BundleProgram` must be `Contents/MacOS/DNSFlipHelper` (relative to `DNSFlip.app/`) — omitting `Contents/` causes launchd to look for `DNSFlip.app/MacOS/…` → EX_CONFIG (78)
+4. If the build fails with "unsealed contents present in the bundle root", delete any `default.profraw` files left by profiling in the bundle
 
 ---
 
-## Erreurs connues
+## Commit conventions
 
-1. **SourceKit false positives** : "Cannot find type X in scope" après chaque création de fichier → faire un build pour résoudre (ne pas créer de doublons dans pbxproj)
-2. `.keyboardShortcut(.comma)` n'existe pas → utiliser `.buttonStyle(.borderless)`
-3. `SMAppService.unregister()` est async sur macOS 26 → `try await`
-4. `BundleProgram` doit être `Contents/MacOS/DNSFlipHelper` (relatif à `DNSFlip.app/`) — sans `Contents/` launchd cherche `DNSFlip.app/MacOS/…` → EX_CONFIG (78)
-5. Si le build échoue avec "unsealed contents present in the bundle root", supprimer les `default.profraw` laissés par le profiling dans le bundle
-
----
-
-## Conventions de commit
-
-- Un commit par phase fonctionnelle
-- Message : "Phase N — description courte"
-- Corps détaillé : problèmes rencontrés et solutions
+- One commit per functional phase
+- Message: `Phase N — short description`
+- Detailed body: problems encountered and solutions
