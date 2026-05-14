@@ -56,17 +56,18 @@ private struct MenuBarContentView: View {
     }
 
     var body: some View {
-        Button("DNS actif : \(activeName)") {}
+        let helperActive = store.helperStatus == .enabled
+        Button(helperActive ? "DNS actif : \(activeName)" : "DNS inactif") {}
             .disabled(true)
         Divider()
-        ForEach(Array(store.profileStore.profiles.enumerated()), id: \.element.id) { index, profile in
+        ForEach(store.profileStore.profiles) { profile in
             ProfileMenuItem(
                 profile: profile,
-                isActive: store.activeProfileID == profile.id,
-                index: index
+                isActive: store.activeProfileID == profile.id
             ) {
                 Task { await store.applyProfile(profile) }
             }
+            .disabled(!helperActive)
         }
         Divider()
         if store.helperError != nil {
@@ -83,15 +84,10 @@ private struct MenuBarContentView: View {
 private struct ProfileMenuItem: View {
     let profile: DNSProfile
     let isActive: Bool
-    let index: Int
     let action: () -> Void
 
     var body: some View {
-        if index < 9 {
-            button.keyboardShortcut(KeyEquivalent(Character("\(index + 1)")), modifiers: .command)
-        } else {
-            button
-        }
+        button
     }
 
     private var button: some View {
@@ -391,9 +387,9 @@ private struct HelperTab: View {
             }
 
             if let version = store.helperVersion {
-                Text("Version : \(version)")
+                Label("Connexion fonctionnelle : v\(version)", systemImage: "checkmark.circle.fill")
                     .font(.caption.monospaced())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.green)
             }
 
             Spacer()
