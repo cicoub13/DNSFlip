@@ -1,10 +1,10 @@
-# AGENTS.md — DNSSwitcher
+# AGENTS.md — DNSFlip
 
 Instructions pour tout agent qui travaille sur ce projet.
 
 ## Projet概述
 
-DNSSwitcher est une app macOS menu bar (SwiftUI `MenuBarExtra`) qui permute les serveurs DNS système via un helper root LaunchDaemon + XPC. Distribué hors Mac App Store (Developer ID + notarisation).
+DNSFlip est une app macOS menu bar (SwiftUI `MenuBarExtra`) qui permute les serveurs DNS système via un helper root LaunchDaemon + XPC. Distribué hors Mac App Store (Developer ID + notarisation).
 
 **Phase actuelle** : Phase 3 terminée (build OK) mais test XPC end-to-end échoue (launchd spawn fail `EX_CONFIG`). Voir `PLAN.md` pour le diagnostic en cours.
 
@@ -21,7 +21,7 @@ DNSSwitcher est une app macOS menu bar (SwiftUI `MenuBarExtra`) qui permute les 
 
 ### Architecture helper
 - Helper = LaunchDaemon (pas SMJobBless)
-- Le plist `fr.fotozik.DNSSwitcher.helper.plist` est un **vrai fichier** copié dans `Contents/Library/LaunchDaemons/`
+- Le plist `com.bootstrap.DNSFlip.helper.plist` est un **vrai fichier** copié dans `Contents/Library/LaunchDaemons/`
 - L'Info.plist est **embarqué** dans le binaire via `-sectcreate __TEXT __info_plist`
 - `SMAuthorizedClients` dans l'Info.plist embarqué du binaire (pas dans le launchd plist)
 
@@ -42,26 +42,26 @@ DNSSwitcher est une app macOS menu bar (SwiftUI `MenuBarExtra`) qui permute les 
 
 ```bash
 # Build
-xcodebuild -scheme DNSSwitcher -configuration Debug build
+xcodebuild -scheme DNSFlip -configuration Debug build
 
 # Vérifier signature helper
-codesign -dv DNSSwitcher.app/Contents/MacOS/DNSSwitcherHelper
+codesign -dv DNSFlip.app/Contents/MacOS/DNSFlipHelper
 
 # Vérifier structure bundle
-ls -la DNSSwitcher.app/Contents/MacOS/
-ls -la DNSSwitcher.app/Contents/Library/LaunchDaemons/
+ls -la DNSFlip.app/Contents/MacOS/
+ls -la DNSFlip.app/Contents/Library/LaunchDaemons/
 
 # Vérifier Info.plist embarqué
-otool -s __TEXT __info_plist DNSSwitcher.app/Contents/MacOS/DNSSwitcherHelper
+otool -s __TEXT __info_plist DNSFlip.app/Contents/MacOS/DNSFlipHelper
 
 # État launchd
-launchctl print system/fr.fotozik.DNSSwitcher.helper
+launchctl print system/com.bootstrap.DNSFlip.helper
 
 # Logs launchd
-log show --predicate 'process == "DNSSwitcherHelper" OR subsystem == "com.apple.servicemanagement"' --level error --last 5m
+log show --predicate 'process == "DNSFlipHelper" OR subsystem == "com.apple.servicemanagement"' --level error --last 5m
 
 # Ouvrir app
-open ~/Library/Developer/Xcode/DerivedData/DNSSwitcher-aggpdragwtjkzxfwcbyrwurckmvq/Build/Products/Debug/DNSSwitcher.app
+open ~/Library/Developer/Xcode/DerivedData/DNSFlip-aggpdragwtjkzxfwcbyrwurckmvq/Build/Products/Debug/DNSFlip.app
 ```
 
 ---
@@ -78,11 +78,11 @@ open ~/Library/Developer/Xcode/DerivedData/DNSSwitcher-aggpdragwtjkzxfwcbyrwurck
 
 ## Fichiers modifiés récemment
 
-- `DNSSwitcher/DNSSwitcherApp.swift` — MenuBarExtra avec `.menuBarExtraStyle(.menu)` + fenêtre Settings manuelle (SettingsLink ne marche pas depuis MenuBarExtra)
-- `DNSSwitcher/IPC/HelperClient.swift` — client XPC async
-- `DNSSwitcherHelper/main.swift` — XPC listener hello-world (setDNS/listServices stubs)
-- `DNSSwitcherHelper/Info.plist` — embarqué dans le binaire, `SMAuthorizedClients` avec Team ID 3X7B4F6R56
-- `DNSSwitcherHelper/fr.fotozik.DNSSwitcher.helper.plist` — copied to LaunchDaemons/ dans le bundle
+- `DNSFlip/DNSFlipApp.swift` — MenuBarExtra avec `.menuBarExtraStyle(.menu)` + fenêtre Settings manuelle (SettingsLink ne marche pas depuis MenuBarExtra)
+- `DNSFlip/IPC/HelperClient.swift` — client XPC async
+- `DNSFlipHelper/main.swift` — XPC listener hello-world (setDNS/listServices stubs)
+- `DNSFlipHelper/Info.plist` — embarqué dans le binaire, `SMAuthorizedClients` avec Team ID 3X7B4F6R56
+- `DNSFlipHelper/com.bootstrap.DNSFlip.helper.plist` — copied to LaunchDaemons/ dans le bundle
 
 ---
 
@@ -91,7 +91,7 @@ open ~/Library/Developer/Xcode/DerivedData/DNSSwitcher-aggpdragwtjkzxfwcbyrwurck
 1. **SourceKit false positives** : "Cannot find type X in scope" après chaque création de fichier → faire un build pour résoudre (ne pas créer de doublons dans pbxproj)
 2. `.keyboardShortcut(.comma)` n'existe pas → utiliser `.buttonStyle(.borderless)`
 3. `SMAppService.unregister()` est async sur macOS 26 → `try await`
-4. `BundleProgram` doit être `Contents/MacOS/DNSSwitcherHelper` (relatif à `DNSSwitcher.app/`) — sans `Contents/` launchd cherche `DNSSwitcher.app/MacOS/…` → EX_CONFIG (78)
+4. `BundleProgram` doit être `Contents/MacOS/DNSFlipHelper` (relatif à `DNSFlip.app/`) — sans `Contents/` launchd cherche `DNSFlip.app/MacOS/…` → EX_CONFIG (78)
 5. Si le build échoue avec "unsealed contents present in the bundle root", supprimer les `default.profraw` laissés par le profiling dans le bundle
 
 ---

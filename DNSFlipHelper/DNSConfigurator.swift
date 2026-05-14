@@ -25,7 +25,7 @@ enum DNSError: LocalizedError {
 
 enum DNSConfigurator {
     static func setDNS(serviceID: String, servers: [String]) throws {
-        guard let prefs = SCPreferencesCreate(nil, "fr.fotozik.DNSSwitcher.helper" as CFString, nil) else {
+        guard let prefs = SCPreferencesCreate(nil, "com.bootstrap.DNSFlip.helper" as CFString, nil) else {
             throw DNSError.preferencesOpen
         }
         guard SCPreferencesLock(prefs, true) else {
@@ -54,7 +54,7 @@ enum DNSConfigurator {
     }
 
     static func listServices() -> [[String: String]] {
-        guard let prefs = SCPreferencesCreate(nil, "fr.fotozik.DNSSwitcher.helper" as CFString, nil),
+        guard let prefs = SCPreferencesCreate(nil, "com.bootstrap.DNSFlip.helper" as CFString, nil),
               let services = SCNetworkServiceCopyAll(prefs) as? [SCNetworkService] else {
             return []
         }

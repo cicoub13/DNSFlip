@@ -1,4 +1,4 @@
-# Plan — DNSSwitcher v1
+# Plan — DNSFlip v1
 
 ## État
 
@@ -13,7 +13,7 @@
 
 ## Fix Phase 3 (post-mortem)
 
-`BundleProgram` était `MacOS/DNSSwitcherHelper` mais launchd résout ce chemin depuis la racine du bundle (`DNSSwitcher.app/`). Le binaire est à `Contents/MacOS/DNSSwitcherHelper` → corrigé.
+`BundleProgram` était `MacOS/DNSFlipHelper` mais launchd résout ce chemin depuis la racine du bundle (`DNSFlip.app/`). Le binaire est à `Contents/MacOS/DNSFlipHelper` → corrigé.
 
 ---
 
@@ -33,15 +33,15 @@ Implémenter la vraie logique DNS dans le helper via `SCPreferences` / `SystemCo
 
 | Fichier | Action |
 |---|---|
-| `DNSSwitcherHelper/DNSConfigurator.swift` | Nouveau — logique SCPreferences |
-| `DNSSwitcherHelper/main.swift` | Modifier `setDNS` → déléguer à `DNSConfigurator` |
-| `DNSSwitcher.xcodeproj` | Ajouter `SystemConfiguration.framework` au target helper |
+| `DNSFlipHelper/DNSConfigurator.swift` | Nouveau — logique SCPreferences |
+| `DNSFlipHelper/main.swift` | Modifier `setDNS` → déléguer à `DNSConfigurator` |
+| `DNSFlip.xcodeproj` | Ajouter `SystemConfiguration.framework` au target helper |
 
 ### API SCPreferences (rappel)
 
 ```swift
 // Ouvrir les préférences système (root → pas d'auth requise)
-let prefs = SCPreferencesCreate(nil, "DNSSwitcherHelper" as CFString, nil)
+let prefs = SCPreferencesCreate(nil, "DNSFlipHelper" as CFString, nil)
 
 // Chemin du service DNS
 let path = "NetworkServices/\(serviceID)/DNS" as CFString
@@ -71,14 +71,14 @@ SCPreferencesApplyChanges(prefs)
 ## Architecture actuelle (Phase 3 terminée)
 
 ```
-DNSSwitcher.app
+DNSFlip.app
 ├── Contents/MacOS/
-│   ├── DNSSwitcher         (SwiftUI MenuBarExtra)
-│   └── DNSSwitcherHelper  (XPC daemon root)
+│   ├── DNSFlip         (SwiftUI MenuBarExtra)
+│   └── DNSFlipHelper  (XPC daemon root)
 └── Contents/Library/LaunchDaemons/
-    └── fr.fotozik.DNSSwitcher.helper.plist
+    └── com.bootstrap.DNSFlip.helper.plist
 
-App GUI ──NSXPCConnection──▶ Helper (root, Mach "fr.fotozik.DNSSwitcher.helper")
+App GUI ──NSXPCConnection──▶ Helper (root, Mach "com.bootstrap.DNSFlip.helper")
 ```
 
 **Protocole XPC** (`DNSHelperProtocol`) :
@@ -91,8 +91,8 @@ App GUI ──NSXPCConnection──▶ Helper (root, Mach "fr.fotozik.DNSSwitche
 ## Compilation
 
 ```bash
-xcodebuild -scheme DNSSwitcher -configuration Debug build
+xcodebuild -scheme DNSFlip -configuration Debug build
 # → BUILD SUCCEEDED
 ```
 
-Debug DerivedData : `~/Library/Developer/Xcode/DerivedData/DNSSwitcher-aggpdragwtjkzxfwcbyrwurckmvq/Build/Products/Debug/DNSSwitcher.app`
+Debug DerivedData : `~/Library/Developer/Xcode/DerivedData/DNSFlip-aggpdragwtjkzxfwcbyrwurckmvq/Build/Products/Debug/DNSFlip.app`

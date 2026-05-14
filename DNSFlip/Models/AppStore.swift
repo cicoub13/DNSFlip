@@ -21,7 +21,7 @@ final class AppStore: ObservableObject {
         didSet { UserDefaults.standard.set(selectedServiceID, forKey: "selectedServiceID") }
     }
 
-    private let daemonService = SMAppService.daemon(plistName: "fr.fotozik.DNSSwitcher.helper.plist")
+    private let daemonService = SMAppService.daemon(plistName: "com.bootstrap.DNSFlip.helper.plist")
 
     init() {
         _activeProfileID = Published(initialValue:

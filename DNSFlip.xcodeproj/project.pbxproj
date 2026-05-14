@@ -9,15 +9,15 @@
 /* Begin PBXBuildFile section */
 		C8D96D8629D85F0200F22B71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8D96D8529D85F0200F22B71 /* Assets.xcassets */; };
 		C8D96D8929D85F0200F22B71 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8D96D8829D85F0200F22B71 /* Preview Assets.xcassets */; };
-		C8D96D9429D85F0200F22B71 /* DNSSwitcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96D9329D85F0200F22B71 /* DNSSwitcherTests.swift */; };
-		C8D96D9E29D85F0200F22B71 /* DNSSwitcherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96D9D29D85F0200F22B71 /* DNSSwitcherUITests.swift */; };
-		C8D96DA029D85F0200F22B71 /* DNSSwitcherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96D9F29D85F0200F22B71 /* DNSSwitcherUITestsLaunchTests.swift */; };
+		C8D96D9429D85F0200F22B71 /* DNSFlipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96D9329D85F0200F22B71 /* DNSFlipTests.swift */; };
+		C8D96D9E29D85F0200F22B71 /* DNSFlipUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96D9D29D85F0200F22B71 /* DNSFlipUITests.swift */; };
+		C8D96DA029D85F0200F22B71 /* DNSFlipUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96D9F29D85F0200F22B71 /* DNSFlipUITestsLaunchTests.swift */; };
 		C8D96DBB29D8634900F22B71 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D96DBA29D8634900F22B71 /* main.swift */; };
-		C8F0A00100000000003E7445 /* DNSSwitcherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0A00200000000003E7445 /* DNSSwitcherApp.swift */; };
+		C8F0A00100000000003E7445 /* DNSFlipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0A00200000000003E7445 /* DNSFlipApp.swift */; };
 		C8F0A00300000000003E7445 /* DNSProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0A00400000000003E7445 /* DNSProfile.swift */; };
 		C8F0A00500000000003E7445 /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0A00600000000003E7445 /* ProfileStore.swift */; };
-		C8FA000100000000003E7445 /* fr.fotozik.DNSSwitcher.helper.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = C8FA000800000000003E7445 /* fr.fotozik.DNSSwitcher.helper.plist */; };
-		C8FA000200000000003E7445 /* DNSSwitcherHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = C8D96DB829D8634900F22B71 /* DNSSwitchHelper */; };
+		C8FA000100000000003E7445 /* com.bootstrap.DNSFlip.helper.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */; };
+		C8FA000200000000003E7445 /* DNSFlipHelper in CopyFiles */ = {isa = PBXBuildFile; fileRef = C8D96DB829D8634900F22B71 /* DNSSwitchHelper */; };
 		C8FA000300000000003E7445 /* DNSHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */; };
 		C8FA000400000000003E7445 /* DNSHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */; };
 		C8FA001200000000003E7445 /* HelperClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA001000000000003E7445 /* HelperClient.swift */; };
@@ -32,14 +32,14 @@
 			containerPortal = C8D96D7629D85F0200F22B71 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C8D96D7D29D85F0200F22B71;
-			remoteInfo = DNSSwitcher;
+			remoteInfo = DNSFlip;
 		};
 		C8D96D9A29D85F0200F22B71 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C8D96D7629D85F0200F22B71 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C8D96D7D29D85F0200F22B71;
-			remoteInfo = DNSSwitcher;
+			remoteInfo = DNSFlip;
 		};
 		C8FA000500000000003E7445 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -66,7 +66,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				C8FA000200000000003E7445 /* DNSSwitcherHelper in CopyFiles */,
+				C8FA000200000000003E7445 /* DNSFlipHelper in CopyFiles */,
 			);
 			name = CopyHelperBinary;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,7 +77,7 @@
 			dstPath = "Contents/Library/LaunchDaemons";
 			dstSubfolderSpec = 1;
 			files = (
-				C8FA000100000000003E7445 /* fr.fotozik.DNSSwitcher.helper.plist in CopyFiles */,
+				C8FA000100000000003E7445 /* com.bootstrap.DNSFlip.helper.plist in CopyFiles */,
 			);
 			name = CopyLaunchDaemonPlist;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,21 +85,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C8D96D7E29D85F0200F22B71 /* DNSSwitcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DNSSwitcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D96D7E29D85F0200F22B71 /* DNSFlip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DNSFlip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D96D8529D85F0200F22B71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C8D96D8829D85F0200F22B71 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C8D96D8A29D85F0200F22B71 /* DNSSwitcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DNSSwitcher.entitlements; sourceTree = "<group>"; };
-		C8D96D8F29D85F0200F22B71 /* DNSSwitcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DNSSwitcherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8D96D9329D85F0200F22B71 /* DNSSwitcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSSwitcherTests.swift; sourceTree = "<group>"; };
-		C8D96D9929D85F0200F22B71 /* DNSSwitcherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DNSSwitcherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8D96D9D29D85F0200F22B71 /* DNSSwitcherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSSwitcherUITests.swift; sourceTree = "<group>"; };
-		C8D96D9F29D85F0200F22B71 /* DNSSwitcherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSSwitcherUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C8D96D8A29D85F0200F22B71 /* DNSFlip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DNSFlip.entitlements; sourceTree = "<group>"; };
+		C8D96D8F29D85F0200F22B71 /* DNSFlipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DNSFlipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D96D9329D85F0200F22B71 /* DNSFlipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSFlipTests.swift; sourceTree = "<group>"; };
+		C8D96D9929D85F0200F22B71 /* DNSFlipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DNSFlipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D96D9D29D85F0200F22B71 /* DNSFlipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSFlipUITests.swift; sourceTree = "<group>"; };
+		C8D96D9F29D85F0200F22B71 /* DNSFlipUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSFlipUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C8D96DB829D8634900F22B71 /* DNSSwitchHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DNSSwitchHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D96DBA29D8634900F22B71 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		C8F0A00200000000003E7445 /* DNSSwitcherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSSwitcherApp.swift; sourceTree = "<group>"; };
+		C8F0A00200000000003E7445 /* DNSFlipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSFlipApp.swift; sourceTree = "<group>"; };
 		C8F0A00400000000003E7445 /* DNSProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSProfile.swift; sourceTree = "<group>"; };
 		C8F0A00600000000003E7445 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
-		C8FA000800000000003E7445 /* fr.fotozik.DNSSwitcher.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "fr.fotozik.DNSSwitcher.helper.plist"; sourceTree = "<group>"; };
+		C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "com.bootstrap.DNSFlip.helper.plist"; sourceTree = "<group>"; };
 		C8FA000900000000003E7445 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8FA000A00000000003E7445 /* DNSHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSHelperProtocol.swift; sourceTree = "<group>"; };
 		C8FA001000000000003E7445 /* HelperClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClient.swift; sourceTree = "<group>"; };
@@ -144,10 +144,10 @@
 		C8D96D7529D85F0200F22B71 = {
 			isa = PBXGroup;
 			children = (
-				C8D96D8029D85F0200F22B71 /* DNSSwitcher */,
-				C8D96D9229D85F0200F22B71 /* DNSSwitcherTests */,
-				C8D96D9C29D85F0200F22B71 /* DNSSwitcherUITests */,
-				C8D96DB929D8634900F22B71 /* DNSSwitcherHelper */,
+				C8D96D8029D85F0200F22B71 /* DNSFlip */,
+				C8D96D9229D85F0200F22B71 /* DNSFlipTests */,
+				C8D96D9C29D85F0200F22B71 /* DNSFlipUITests */,
+				C8D96DB929D8634900F22B71 /* DNSFlipHelper */,
 				C8D96D7F29D85F0200F22B71 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -155,25 +155,25 @@
 		C8D96D7F29D85F0200F22B71 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C8D96D7E29D85F0200F22B71 /* DNSSwitcher.app */,
-				C8D96D8F29D85F0200F22B71 /* DNSSwitcherTests.xctest */,
-				C8D96D9929D85F0200F22B71 /* DNSSwitcherUITests.xctest */,
+				C8D96D7E29D85F0200F22B71 /* DNSFlip.app */,
+				C8D96D8F29D85F0200F22B71 /* DNSFlipTests.xctest */,
+				C8D96D9929D85F0200F22B71 /* DNSFlipUITests.xctest */,
 				C8D96DB829D8634900F22B71 /* DNSSwitchHelper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C8D96D8029D85F0200F22B71 /* DNSSwitcher */ = {
+		C8D96D8029D85F0200F22B71 /* DNSFlip */ = {
 			isa = PBXGroup;
 			children = (
 				C8D96D8529D85F0200F22B71 /* Assets.xcassets */,
-				C8D96D8A29D85F0200F22B71 /* DNSSwitcher.entitlements */,
+				C8D96D8A29D85F0200F22B71 /* DNSFlip.entitlements */,
 				C8D96D8729D85F0200F22B71 /* Preview Content */,
-				C8F0A00200000000003E7445 /* DNSSwitcherApp.swift */,
+				C8F0A00200000000003E7445 /* DNSFlipApp.swift */,
 				C8F0A00700000000003E7445 /* Models */,
 				C8FA000B00000000003E7445 /* IPC */,
 			);
-			path = DNSSwitcher;
+			path = DNSFlip;
 			sourceTree = "<group>";
 		};
 		C8FA000B00000000003E7445 /* IPC */ = {
@@ -203,40 +203,40 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		C8D96D9229D85F0200F22B71 /* DNSSwitcherTests */ = {
+		C8D96D9229D85F0200F22B71 /* DNSFlipTests */ = {
 			isa = PBXGroup;
 			children = (
-				C8D96D9329D85F0200F22B71 /* DNSSwitcherTests.swift */,
+				C8D96D9329D85F0200F22B71 /* DNSFlipTests.swift */,
 			);
-			path = DNSSwitcherTests;
+			path = DNSFlipTests;
 			sourceTree = "<group>";
 		};
-		C8D96D9C29D85F0200F22B71 /* DNSSwitcherUITests */ = {
+		C8D96D9C29D85F0200F22B71 /* DNSFlipUITests */ = {
 			isa = PBXGroup;
 			children = (
-				C8D96D9D29D85F0200F22B71 /* DNSSwitcherUITests.swift */,
-				C8D96D9F29D85F0200F22B71 /* DNSSwitcherUITestsLaunchTests.swift */,
+				C8D96D9D29D85F0200F22B71 /* DNSFlipUITests.swift */,
+				C8D96D9F29D85F0200F22B71 /* DNSFlipUITestsLaunchTests.swift */,
 			);
-			path = DNSSwitcherUITests;
+			path = DNSFlipUITests;
 			sourceTree = "<group>";
 		};
-		C8D96DB929D8634900F22B71 /* DNSSwitcherHelper */ = {
+		C8D96DB929D8634900F22B71 /* DNSFlipHelper */ = {
 			isa = PBXGroup;
 			children = (
 				C8D96DBA29D8634900F22B71 /* main.swift */,
 				C8SC001600000000003E7445 /* DNSConfigurator.swift */,
 				C8FA000900000000003E7445 /* Info.plist */,
-				C8FA000800000000003E7445 /* fr.fotozik.DNSSwitcher.helper.plist */,
+				C8FA000800000000003E7445 /* com.bootstrap.DNSFlip.helper.plist */,
 			);
-			path = DNSSwitcherHelper;
+			path = DNSFlipHelper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C8D96D7D29D85F0200F22B71 /* DNSSwitcher */ = {
+		C8D96D7D29D85F0200F22B71 /* DNSFlip */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C8D96DA329D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSSwitcher" */;
+			buildConfigurationList = C8D96DA329D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSFlip" */;
 			buildPhases = (
 				C8E958CF29D9B2E9003E7445 /* Sources */,
 				C8D96D7B29D85F0200F22B71 /* Frameworks */,
@@ -250,14 +250,14 @@
 			dependencies = (
 				C8FA000C00000000003E7445 /* PBXTargetDependency */,
 			);
-			name = DNSSwitcher;
-			productName = DNSSwitcher;
-			productReference = C8D96D7E29D85F0200F22B71 /* DNSSwitcher.app */;
+			name = DNSFlip;
+			productName = DNSFlip;
+			productReference = C8D96D7E29D85F0200F22B71 /* DNSFlip.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C8D96D8E29D85F0200F22B71 /* DNSSwitcherTests */ = {
+		C8D96D8E29D85F0200F22B71 /* DNSFlipTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C8D96DA629D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSSwitcherTests" */;
+			buildConfigurationList = C8D96DA629D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSFlipTests" */;
 			buildPhases = (
 				C8D96D8B29D85F0200F22B71 /* Sources */,
 				C8D96D8C29D85F0200F22B71 /* Frameworks */,
@@ -268,14 +268,14 @@
 			dependencies = (
 				C8D96D9129D85F0200F22B71 /* PBXTargetDependency */,
 			);
-			name = DNSSwitcherTests;
-			productName = DNSSwitcherTests;
-			productReference = C8D96D8F29D85F0200F22B71 /* DNSSwitcherTests.xctest */;
+			name = DNSFlipTests;
+			productName = DNSFlipTests;
+			productReference = C8D96D8F29D85F0200F22B71 /* DNSFlipTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C8D96D9829D85F0200F22B71 /* DNSSwitcherUITests */ = {
+		C8D96D9829D85F0200F22B71 /* DNSFlipUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C8D96DA929D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSSwitcherUITests" */;
+			buildConfigurationList = C8D96DA929D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSFlipUITests" */;
 			buildPhases = (
 				C8D96D9529D85F0200F22B71 /* Sources */,
 				C8D96D9629D85F0200F22B71 /* Frameworks */,
@@ -286,9 +286,9 @@
 			dependencies = (
 				C8D96D9B29D85F0200F22B71 /* PBXTargetDependency */,
 			);
-			name = DNSSwitcherUITests;
-			productName = DNSSwitcherUITests;
-			productReference = C8D96D9929D85F0200F22B71 /* DNSSwitcherUITests.xctest */;
+			name = DNSFlipUITests;
+			productName = DNSFlipUITests;
+			productReference = C8D96D9929D85F0200F22B71 /* DNSFlipUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		C8D96DB729D8634900F22B71 /* DNSSwitchHelper */ = {
@@ -334,7 +334,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C8D96D7929D85F0200F22B71 /* Build configuration list for PBXProject "DNSSwitcher" */;
+			buildConfigurationList = C8D96D7929D85F0200F22B71 /* Build configuration list for PBXProject "DNSFlip" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -347,9 +347,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C8D96D7D29D85F0200F22B71 /* DNSSwitcher */,
-				C8D96D8E29D85F0200F22B71 /* DNSSwitcherTests */,
-				C8D96D9829D85F0200F22B71 /* DNSSwitcherUITests */,
+				C8D96D7D29D85F0200F22B71 /* DNSFlip */,
+				C8D96D8E29D85F0200F22B71 /* DNSFlipTests */,
+				C8D96D9829D85F0200F22B71 /* DNSFlipUITests */,
 				C8D96DB729D8634900F22B71 /* DNSSwitchHelper */,
 			);
 		};
@@ -406,7 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8D96D9429D85F0200F22B71 /* DNSSwitcherTests.swift in Sources */,
+				C8D96D9429D85F0200F22B71 /* DNSFlipTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,8 +414,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8D96D9E29D85F0200F22B71 /* DNSSwitcherUITests.swift in Sources */,
-				C8D96DA029D85F0200F22B71 /* DNSSwitcherUITestsLaunchTests.swift in Sources */,
+				C8D96D9E29D85F0200F22B71 /* DNSFlipUITests.swift in Sources */,
+				C8D96DA029D85F0200F22B71 /* DNSFlipUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,7 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8F0A00100000000003E7445 /* DNSSwitcherApp.swift in Sources */,
+				C8F0A00100000000003E7445 /* DNSFlipApp.swift in Sources */,
 				C8F0A00300000000003E7445 /* DNSProfile.swift in Sources */,
 				C8F0A00500000000003E7445 /* ProfileStore.swift in Sources */,
 				C8FA000300000000003E7445 /* DNSHelperProtocol.swift in Sources */,
@@ -447,12 +447,12 @@
 /* Begin PBXTargetDependency section */
 		C8D96D9129D85F0200F22B71 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C8D96D7D29D85F0200F22B71 /* DNSSwitcher */;
+			target = C8D96D7D29D85F0200F22B71 /* DNSFlip */;
 			targetProxy = C8D96D9029D85F0200F22B71 /* PBXContainerItemProxy */;
 		};
 		C8D96D9B29D85F0200F22B71 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C8D96D7D29D85F0200F22B71 /* DNSSwitcher */;
+			target = C8D96D7D29D85F0200F22B71 /* DNSFlip */;
 			targetProxy = C8D96D9A29D85F0200F22B71 /* PBXContainerItemProxy */;
 		};
 		C8FA000C00000000003E7445 /* PBXTargetDependency */ = {
@@ -581,12 +581,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = DNSSwitcher/DNSSwitcher.entitlements;
+				CODE_SIGN_ENTITLEMENTS = DNSFlip/DNSFlip.entitlements;
 				CODE_SIGN_IDENTITY = "043E45DB8A108B80CDF02FDB35242D0EBA2BA99A";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DNSSwitcher/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"DNSFlip/Preview Content\"";
 				DEVELOPMENT_TEAM = 3X7B4F6R56;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -598,7 +598,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -611,12 +611,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = DNSSwitcher/DNSSwitcher.entitlements;
+				CODE_SIGN_ENTITLEMENTS = DNSFlip/DNSFlip.entitlements;
 				CODE_SIGN_IDENTITY = "043E45DB8A108B80CDF02FDB35242D0EBA2BA99A";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DNSSwitcher/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"DNSFlip/Preview Content\"";
 				DEVELOPMENT_TEAM = 3X7B4F6R56;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -628,7 +628,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -646,11 +646,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcherTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DNSSwitcher.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DNSSwitcher";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DNSFlip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DNSFlip";
 			};
 			name = Debug;
 		};
@@ -664,11 +664,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcherTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DNSSwitcher.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DNSSwitcher";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DNSFlip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DNSFlip";
 			};
 			name = Release;
 		};
@@ -680,11 +680,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcherUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = DNSSwitcher;
+				TEST_TARGET_NAME = DNSFlip;
 			};
 			name = Debug;
 		};
@@ -696,11 +696,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcherUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlipUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = DNSSwitcher;
+				TEST_TARGET_NAME = DNSFlip;
 			};
 			name = Release;
 		};
@@ -714,9 +714,9 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "-sectcreate __TEXT __info_plist $(SRCROOT)/DNSSwitcherHelper/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcher.helper;
-				PRODUCT_NAME = DNSSwitcherHelper;
+				OTHER_LDFLAGS = "-sectcreate __TEXT __info_plist $(SRCROOT)/DNSFlipHelper/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip.helper;
+				PRODUCT_NAME = DNSFlipHelper;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -732,9 +732,9 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "-sectcreate __TEXT __info_plist $(SRCROOT)/DNSSwitcherHelper/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = fr.fotozik.DNSSwitcher.helper;
-				PRODUCT_NAME = DNSSwitcherHelper;
+				OTHER_LDFLAGS = "-sectcreate __TEXT __info_plist $(SRCROOT)/DNSFlipHelper/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bootstrap.DNSFlip.helper;
+				PRODUCT_NAME = DNSFlipHelper;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -743,7 +743,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C8D96D7929D85F0200F22B71 /* Build configuration list for PBXProject "DNSSwitcher" */ = {
+		C8D96D7929D85F0200F22B71 /* Build configuration list for PBXProject "DNSFlip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C8D96DA129D85F0200F22B71 /* Debug */,
@@ -752,7 +752,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C8D96DA329D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSSwitcher" */ = {
+		C8D96DA329D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSFlip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C8D96DA429D85F0200F22B71 /* Debug */,
@@ -761,7 +761,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C8D96DA629D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSSwitcherTests" */ = {
+		C8D96DA629D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSFlipTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C8D96DA729D85F0200F22B71 /* Debug */,
@@ -770,7 +770,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C8D96DA929D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSSwitcherUITests" */ = {
+		C8D96DA929D85F0200F22B71 /* Build configuration list for PBXNativeTarget "DNSFlipUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C8D96DAA29D85F0200F22B71 /* Debug */,

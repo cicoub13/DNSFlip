@@ -1,13 +1,13 @@
 //
-//  DNSSwitcherUITestsLaunchTests.swift
-//  DNSSwitcherUITests
+//  DNSFlipUITestsLaunchTests.swift
+//  DNSFlipUITests
 //
 //  Created by Cyril Beslay Home on 01/04/2023.
 //
 
 import XCTest
 
-final class DNSSwitcherUITestsLaunchTests: XCTestCase {
+final class DNSFlipUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

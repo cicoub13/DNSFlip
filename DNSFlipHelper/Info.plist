@@ -3,16 +3,16 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleIdentifier</key>
-    <string>fr.fotozik.DNSSwitcher.helper</string>
+    <string>com.bootstrap.DNSFlip.helper</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>DNSSwitcherHelper</string>
+    <string>DNSFlipHelper</string>
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>SMAuthorizedClients</key>
     <array>
-        <string>anchor apple generic and identifier "fr.fotozik.DNSSwitcher" and certificate leaf[subject.OU] = "3X7B4F6R56"</string>
+        <string>anchor apple generic and identifier "com.bootstrap.DNSFlip" and certificate leaf[subject.OU] = "3X7B4F6R56"</string>
     </array>
 </dict>
 </plist>

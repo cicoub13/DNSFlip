@@ -5,12 +5,12 @@ import Network
 // MARK: - App entry point
 
 @main
-struct DNSSwitcherApp: App {
+struct DNSFlipApp: App {
     @StateObject private var store = AppStore()
     @State private var settingsWindow: NSWindow?
 
     var body: some Scene {
-        MenuBarExtra("DNSSwitcher", systemImage: store.helperStatus == .enabled ? "network" : "network.slash") {
+        MenuBarExtra("DNSFlip", systemImage: store.helperStatus == .enabled ? "network" : "network.slash") {
             MenuBarContentView(store: store, showSettings: { presentSettings() })
         }
         .menuBarExtraStyle(.menu)
@@ -24,7 +24,7 @@ struct DNSSwitcherApp: App {
         }
         let hostingController = NSHostingController(rootView: SettingsView().environmentObject(store))
         let window = NSWindow(contentViewController: hostingController)
-        window.title = "DNSSwitcher — Réglages"
+        window.title = "DNSFlip — Réglages"
         window.styleMask = [.titled, .closable, .miniaturizable, .resizable]
         window.setContentSize(NSSize(width: 580, height: 460))
         window.isReleasedWhenClosed = false
@@ -76,7 +76,7 @@ private struct MenuBarContentView: View {
         Button("Réglages…") { showSettings() }
             .keyboardShortcut(",", modifiers: .command)
         Divider()
-        Button("Quitter DNSSwitcher") { NSApplication.shared.terminate(nil) }
+        Button("Quitter DNSFlip") { NSApplication.shared.terminate(nil) }
             .keyboardShortcut("q", modifiers: .command)
     }
 }
@@ -353,7 +353,7 @@ private struct HelperTab: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("DNSSwitcher utilise un service privilégié pour modifier les DNS système. Ce service (helper) s'exécute en arrière-plan et ne demande votre mot de passe qu'une seule fois lors de l'installation.")
+            Text("DNSFlip utilise un service privilégié pour modifier les DNS système. Ce service (helper) s'exécute en arrière-plan et ne demande votre mot de passe qu'une seule fois lors de l'installation.")
                 .foregroundStyle(.secondary)
                 .font(.callout)
                 .fixedSize(horizontal: false, vertical: true)

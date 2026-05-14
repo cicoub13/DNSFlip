@@ -9,7 +9,7 @@ final class ProfileStore: ObservableObject {
 
     init() {
         let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let dir = appSupport.appendingPathComponent("fr.fotozik.DNSSwitcher", isDirectory: true)
+        let dir = appSupport.appendingPathComponent("com.bootstrap.DNSFlip", isDirectory: true)
         storageURL = dir.appendingPathComponent("profiles.json")
 
         do {

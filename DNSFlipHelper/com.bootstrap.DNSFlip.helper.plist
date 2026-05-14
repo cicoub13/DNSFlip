@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>fr.fotozik.DNSSwitcher.helper</string>
+    <string>com.bootstrap.DNSFlip.helper</string>
     <key>BundleProgram</key>
-    <string>Contents/MacOS/DNSSwitcherHelper</string>
+    <string>Contents/MacOS/DNSFlipHelper</string>
     <key>MachServices</key>
     <dict>
-        <key>fr.fotozik.DNSSwitcher.helper</key>
+        <key>com.bootstrap.DNSFlip.helper</key>
         <true/>
     </dict>
     <key>AssociatedBundleIdentifiers</key>
-    <string>fr.fotozik.DNSSwitcher</string>
+    <string>com.bootstrap.DNSFlip</string>
 </dict>
 </plist>

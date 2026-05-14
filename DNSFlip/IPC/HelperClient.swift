@@ -4,7 +4,7 @@ final class HelperClient {
     private var connection: NSXPCConnection?
 
     private func makeConnection() -> NSXPCConnection {
-        let c = NSXPCConnection(machServiceName: "fr.fotozik.DNSSwitcher.helper", options: .privileged)
+        let c = NSXPCConnection(machServiceName: "com.bootstrap.DNSFlip.helper", options: .privileged)
         c.remoteObjectInterface = NSXPCInterface(with: DNSHelperProtocol.self)
         c.invalidationHandler = { [weak self] in self?.connection = nil }
         c.interruptionHandler = { [weak self] in self?.connection = nil }

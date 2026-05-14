@@ -28,7 +28,7 @@ final class HelperImpl: NSObject, DNSHelperProtocol {
     }
 }
 
-let listener = NSXPCListener(machServiceName: "fr.fotozik.DNSSwitcher.helper")
+let listener = NSXPCListener(machServiceName: "com.bootstrap.DNSFlip.helper")
 let helperDelegate = HelperDelegate()
 listener.delegate = helperDelegate
 listener.resume()

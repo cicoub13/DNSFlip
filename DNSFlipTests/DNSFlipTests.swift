@@ -1,14 +1,14 @@
 //
-//  DNSSwitcherTests.swift
-//  DNSSwitcherTests
+//  DNSFlipTests.swift
+//  DNSFlipTests
 //
 //  Created by Cyril Beslay Home on 01/04/2023.
 //
 
 import XCTest
-@testable import DNSSwitcher
+@testable import DNSFlip
 
-final class DNSSwitcherTests: XCTestCase {
+final class DNSFlipTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
