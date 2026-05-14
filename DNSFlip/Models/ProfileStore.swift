@@ -20,6 +20,11 @@ final class ProfileStore: ObservableObject {
         load()
     }
 
+    init(storageURL: URL) {
+        self.storageURL = storageURL
+        load()
+    }
+
     func save() {
         do {
             let data = try JSONEncoder().encode(profiles)

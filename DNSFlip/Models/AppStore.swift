@@ -122,7 +122,7 @@ final class AppStore: ObservableObject {
         }
     }
 
-    private func effectiveServiceID() -> String? {
+    func effectiveServiceID() -> String? {
         if let id = selectedServiceID { return id }
         if let id = networkServices.first(where: { $0["active"] == "1" })?["id"] { return id }
         return networkServices.first?["id"]

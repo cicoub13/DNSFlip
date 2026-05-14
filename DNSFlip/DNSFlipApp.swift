@@ -40,7 +40,7 @@ struct DNSFlipApp: App {
 
 // MARK: - IP validation helper
 
-private func isValidIP(_ s: String) -> Bool {
+func isValidIP(_ s: String) -> Bool {
     IPv4Address(s) != nil || IPv6Address(s) != nil
 }
 
