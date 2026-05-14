@@ -9,6 +9,7 @@ import Sparkle
 struct SettingsView: View {
     @EnvironmentObject var store: AppStore
     @State private var selectedTab = 0
+    @State private var alertError: String?
     #if canImport(Sparkle)
     @StateObject private var sparkle = SparkleUpdaterViewModel()
     #endif
@@ -40,6 +41,17 @@ struct SettingsView: View {
                 .tag(4)
         }
         .frame(minWidth: 540, idealWidth: 600, minHeight: 420, idealHeight: 480)
+        .onReceive(store.$helperError) { err in
+            if let err { alertError = err }
+        }
+        .alert("Erreur", isPresented: Binding(
+            get: { alertError != nil },
+            set: { if !$0 { alertError = nil } }
+        )) {
+            Button("OK") { alertError = nil }
+        } message: {
+            Text(alertError ?? "")
+        }
     }
 }
 
@@ -162,6 +174,7 @@ struct ProfilesTab: View {
                             }
                             .buttonStyle(.borderless)
                             .help("Modifier")
+                            .accessibilityLabel("Modifier")
                             Button {
                                 pendingDelete = profile
                             } label: {
@@ -169,6 +182,8 @@ struct ProfilesTab: View {
                             }
                             .buttonStyle(.borderless)
                             .foregroundStyle(.red)
+                            .accessibilityLabel("Supprimer")
+                            .accessibilityHint("Supprime ce profil DNS")
                         }
                         .padding(.vertical, 2)
                     }
@@ -274,6 +289,7 @@ struct NetworkTab: View {
                         }
                         .buttonStyle(.borderless)
                         .help("Rafraîchir les interfaces")
+                        .accessibilityLabel("Rafraîchir les interfaces")
                     }
                     Text("Service actif détecté : \(activeServiceName)")
                         .font(.caption)

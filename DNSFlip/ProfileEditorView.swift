@@ -70,6 +70,7 @@ struct ProfileEditorView: View {
                                         .foregroundStyle(.red)
                                 }
                                 .buttonStyle(.borderless)
+                                .accessibilityLabel("Supprimer ce serveur")
                             }
                             if fieldIsInvalid(serverFields[idx]) {
                                 Label("Adresse IP invalide", systemImage: "exclamationmark.circle")

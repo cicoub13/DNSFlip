@@ -27,6 +27,7 @@ final class AppStore: ObservableObject {
     @Published var isFetchingServices: Bool = false
     @Published var isWorkingOnHelper: Bool = false
     @Published var launchAtLogin: Bool = false
+    @Published var applySuccess: Bool = false
 
     @Published var activeProfileID: UUID? {
         didSet { UserDefaults.standard.set(activeProfileID?.uuidString, forKey: "activeProfileID") }
@@ -128,6 +129,11 @@ final class AppStore: ObservableObject {
             try await helperClient.setDNS(serviceID: serviceID, servers: profile.servers)
             activeProfileID = profile.id
             helperError = nil
+            applySuccess = true
+            Task {
+                try? await Task.sleep(for: .seconds(1.5))
+                applySuccess = false
+            }
         } catch {
             helperError = error.localizedDescription
         }

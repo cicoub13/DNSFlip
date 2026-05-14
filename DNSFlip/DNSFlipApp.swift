@@ -9,10 +9,20 @@ struct DNSFlipApp: App {
     @State private var settingsWindow: NSWindow?
 
     var body: some Scene {
-        MenuBarExtra("DNSFlip", systemImage: store.helperStatus == .enabled ? "network" : "network.slash") {
+        MenuBarExtra {
             MenuBarContentView(store: store, showSettings: { presentSettings() })
+        } label: {
+            Image(systemName: menuBarSymbol)
+                .accessibilityLabel("DNSFlip")
         }
         .menuBarExtraStyle(.menu)
+    }
+
+    private var menuBarSymbol: String {
+        if store.applySuccess { return "checkmark.circle.fill" }
+        return store.helperStatus == .enabled
+            ? "arrow.left.arrow.right.circle.fill"
+            : "arrow.left.arrow.right.circle"
     }
 
     private func presentSettings() {
