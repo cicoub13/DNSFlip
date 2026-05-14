@@ -1,0 +1,77 @@
+/* Menu bar */
+"Aucun profil actif" = "No active profile";
+"DNS actif : %@" = "DNS active: %@";
+"DNS inactif" = "DNS inactive";
+"⚠︎ Erreur — ouvrir Réglages" = "⚠︎ Error — open Settings";
+"Réglages…" = "Settings…";
+"Quitter DNSFlip" = "Quit DNSFlip";
+
+/* Settings window */
+"DNSFlip — Réglages" = "DNSFlip — Settings";
+
+/* Settings tabs */
+"Général" = "General";
+"Profils" = "Profiles";
+"Réseau" = "Network";
+"À propos" = "About";
+
+/* General tab */
+"Démarrer au login" = "Launch at login";
+
+/* Profiles tab */
+"Aucun profil" = "No profiles";
+"Crée ton premier profil DNS pour commencer." = "Create your first DNS profile to get started.";
+"Ajouter un profil" = "Add profile";
+"Modifier" = "Edit";
+"Supprimer \"%@\" ?" = "Delete \"%@\"?";
+"Supprimer" = "Delete";
+
+/* Network tab */
+"Interface réseau utilisée pour appliquer les profils DNS." = "Network interface used to apply DNS profiles.";
+"Chargement des interfaces…" = "Loading interfaces…";
+"Aucun service réseau" = "No network service";
+"Le helper est requis pour lister les interfaces réseau." = "The helper is required to list network interfaces.";
+"Configurer le helper" = "Configure helper";
+"Service réseau" = "Network service";
+"Automatique (service actif)" = "Automatic (active service)";
+"Rafraîchir les interfaces" = "Refresh interfaces";
+"Service actif détecté : %@" = "Active service detected: %@";
+
+/* Helper tab */
+"DNSFlip utilise un service privilégié pour modifier les DNS système. Ce service (helper) s'exécute en arrière-plan et ne demande votre mot de passe qu'une seule fois lors de l'installation." = "DNSFlip uses a privileged service to modify system DNS settings. This service (helper) runs in the background and only requests your password once during installation.";
+"Helper installé" = "Helper installed";
+"Approbation requise" = "Approval required";
+"Non installé" = "Not installed";
+"Non trouvé" = "Not found";
+"État inconnu" = "Unknown state";
+"Le service est actif et joignable." = "The service is active and reachable.";
+"Autorisez-le dans Réglages Système → Général → Ouverture." = "Allow it in System Settings → General → Login Items.";
+"Cliquez sur Installer pour activer le service." = "Click Install to activate the service.";
+"Fichier helper introuvable dans le bundle." = "Helper file not found in the bundle.";
+"Tester la connexion" = "Test connection";
+"Désinstaller" = "Uninstall";
+"Ouvrir Réglages Système" = "Open System Settings";
+"Installer le helper" = "Install helper";
+"Connexion fonctionnelle : v%@" = "Working connection: v%@";
+
+/* About tab */
+"Version %@" = "Version %@";
+"Vérifier les mises à jour…" = "Check for updates…";
+
+/* Profile editor */
+"Nouveau profil" = "New profile";
+"Modifier le profil" = "Edit profile";
+"Configure un nom et les serveurs DNS pour ce profil." = "Configure a name and DNS servers for this profile.";
+"Nom" = "Name";
+"Ex. : Cloudflare" = "E.g.: Cloudflare";
+"1.1.1.1 ou 2606:4700:4700::1111" = "1.1.1.1 or 2606:4700:4700::1111";
+"Serveurs DNS" = "DNS Servers";
+"Laisser vide pour utiliser le DNS fourni par le routeur (DHCP)." = "Leave empty to use the DNS provided by the router (DHCP).";
+"Adresse IP invalide" = "Invalid IP address";
+"Ajouter un serveur" = "Add server";
+"Annuler" = "Cancel";
+"Enregistrer" = "Save";
+
+/* Errors */
+"Helper non installé — ouvre Réglages → Helper" = "Helper not installed — open Settings → Helper";
+"Aucun service réseau disponible" = "No network service available";

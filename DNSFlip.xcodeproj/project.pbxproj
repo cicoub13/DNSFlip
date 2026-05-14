@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8AF000400000001003E7445 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C8AF000300000001003E7445 /* Localizable.strings */; };
 		C823002A2FB601060024770A /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = C82300292FB601060024770A /* Sparkle */; };
 		C8D96D8629D85F0200F22B71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8D96D8529D85F0200F22B71 /* Assets.xcassets */; };
 		C8D96D8929D85F0200F22B71 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8D96D8829D85F0200F22B71 /* Preview Assets.xcassets */; };
@@ -108,7 +109,21 @@
 		C8FA001100000000003E7445 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		C8SC001400000000003E7445 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C8SC001600000000003E7445 /* DNSConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSConfigurator.swift; sourceTree = "<group>"; };
+		C8AF000100000001003E7445 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C8AF000200000001003E7445 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXVariantGroup section */
+		C8AF000300000001003E7445 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C8AF000100000001003E7445 /* fr */,
+				C8AF000200000001003E7445 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C8D96D7B29D85F0200F22B71 /* Frameworks */ = {
@@ -184,6 +199,7 @@
 				C8F0A00200000000003E7445 /* DNSFlipApp.swift */,
 				C8F0A00700000000003E7445 /* Models */,
 				C8FA000B00000000003E7445 /* IPC */,
+				C8AF000300000001003E7445 /* Localizable.strings */,
 			);
 			path = DNSFlip;
 			sourceTree = "<group>";
@@ -349,10 +365,11 @@
 			};
 			buildConfigurationList = C8D96D7929D85F0200F22B71 /* Build configuration list for PBXProject "DNSFlip" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				fr,
 				Base,
 			);
 			mainGroup = C8D96D7529D85F0200F22B71;
@@ -378,6 +395,7 @@
 			files = (
 				C8D96D8929D85F0200F22B71 /* Preview Assets.xcassets in Resources */,
 				C8D96D8629D85F0200F22B71 /* Assets.xcassets in Resources */,
+				C8AF000400000001003E7445 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

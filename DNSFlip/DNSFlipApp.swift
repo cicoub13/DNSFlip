@@ -27,7 +27,7 @@ struct DNSFlipApp: App {
         }
         let hostingController = NSHostingController(rootView: SettingsView().environmentObject(store))
         let window = NSWindow(contentViewController: hostingController)
-        window.title = "DNSFlip — Réglages"
+        window.title = String(localized: "DNSFlip — Réglages")
         window.styleMask = [.titled, .closable, .miniaturizable, .resizable]
         window.setContentSize(NSSize(width: 580, height: 460))
         window.isReleasedWhenClosed = false
@@ -53,15 +53,20 @@ private struct MenuBarContentView: View {
     private var activeName: String {
         guard let id = store.activeProfileID,
               let p = store.profileStore.profiles.first(where: { $0.id == id }) else {
-            return "Aucun profil actif"
+            return String(localized: "Aucun profil actif")
         }
         return p.name
     }
 
     var body: some View {
         let helperActive = store.helperStatus == .enabled
-        Button(helperActive ? "DNS actif : \(activeName)" : "DNS inactif") {}
-            .disabled(true)
+        if helperActive {
+            Button("DNS actif : \(activeName)") {}
+                .disabled(true)
+        } else {
+            Button("DNS inactif") {}
+                .disabled(true)
+        }
         Divider()
         ForEach(store.profileStore.profiles) { profile in
             ProfileMenuItem(
@@ -432,9 +437,13 @@ private struct HelperTab: View {
             }
 
             if let version = store.helperVersion {
-                Label("Connexion fonctionnelle : v\(version)", systemImage: "checkmark.circle.fill")
-                    .font(.caption.monospaced())
-                    .foregroundStyle(.green)
+                Label {
+                    Text("Connexion fonctionnelle : v\(version)")
+                } icon: {
+                    Image(systemName: "checkmark.circle.fill")
+                }
+                .font(.caption.monospaced())
+                .foregroundStyle(.green)
             }
 
             Spacer()
@@ -461,20 +470,20 @@ private struct HelperTab: View {
 
     private var statusLabel: String {
         switch store.helperStatus {
-        case .enabled: return "Helper installé"
-        case .requiresApproval: return "Approbation requise"
-        case .notRegistered: return "Non installé"
-        case .notFound: return "Non trouvé"
-        @unknown default: return "État inconnu"
+        case .enabled: return String(localized: "Helper installé")
+        case .requiresApproval: return String(localized: "Approbation requise")
+        case .notRegistered: return String(localized: "Non installé")
+        case .notFound: return String(localized: "Non trouvé")
+        @unknown default: return String(localized: "État inconnu")
         }
     }
 
     private var statusDescription: String {
         switch store.helperStatus {
-        case .enabled: return "Le service est actif et joignable."
-        case .requiresApproval: return "Autorisez-le dans Réglages Système → Général → Ouverture."
-        case .notRegistered: return "Cliquez sur Installer pour activer le service."
-        case .notFound: return "Fichier helper introuvable dans le bundle."
+        case .enabled: return String(localized: "Le service est actif et joignable.")
+        case .requiresApproval: return String(localized: "Autorisez-le dans Réglages Système → Général → Ouverture.")
+        case .notRegistered: return String(localized: "Cliquez sur Installer pour activer le service.")
+        case .notFound: return String(localized: "Fichier helper introuvable dans le bundle.")
         @unknown default: return ""
         }
     }

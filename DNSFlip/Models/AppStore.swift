@@ -103,14 +103,14 @@ final class AppStore: ObservableObject {
 
     func applyProfile(_ profile: DNSProfile) async {
         guard helperStatus == .enabled else {
-            helperError = "Helper non installé — ouvre Réglages → Helper"
+            helperError = String(localized: "Helper non installé — ouvre Réglages → Helper")
             return
         }
         if networkServices.isEmpty {
             await fetchServices()
         }
         guard let serviceID = effectiveServiceID() else {
-            helperError = "Aucun service réseau disponible"
+            helperError = String(localized: "Aucun service réseau disponible")
             return
         }
         do {
