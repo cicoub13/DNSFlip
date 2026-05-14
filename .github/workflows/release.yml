@@ -72,6 +72,8 @@ jobs:
           fi
 
       - name: Build, notarize, staple
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: ./scripts/build-and-notarize.sh
 
       - name: Extract version

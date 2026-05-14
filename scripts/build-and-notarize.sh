@@ -140,14 +140,23 @@ done
 
 if [ -n "$SIGN_UPDATE" ]; then
   echo "→ Signing for Sparkle (EdDSA)"
-  SPARKLE_SIG=$("$SIGN_UPDATE" "$DMG")
-  DMG_SIZE=$(stat -f%z "$DMG")
-  {
-    echo "SPARKLE_SIG=${SPARKLE_SIG}"
-    echo "DMG_SIZE=${DMG_SIZE}"
-    echo "DMG_URL=https://github.com/cicoub13/DNSFlip/releases/download/v${VERSION}/DNSFlip-${VERSION}.dmg"
-  } > "build/sparkle.env"
-  echo "Sparkle EdDSA: $SPARKLE_SIG"
+  if [ -n "${SPARKLE_PRIVATE_KEY:-}" ]; then
+    SPARKLE_SIG=$(echo "$SPARKLE_PRIVATE_KEY" | "$SIGN_UPDATE" --ed-key-file - -p "$DMG" 2>&1) && RC=0 || RC=$?
+  else
+    SPARKLE_SIG=$("$SIGN_UPDATE" -p "$DMG" 2>&1) && RC=0 || RC=$?
+  fi
+  if [ "${RC:-0}" -eq 0 ] && [ -n "$SPARKLE_SIG" ]; then
+    DMG_SIZE=$(stat -f%z "$DMG")
+    {
+      echo "SPARKLE_SIG=${SPARKLE_SIG}"
+      echo "DMG_SIZE=${DMG_SIZE}"
+      echo "DMG_URL=https://github.com/cicoub13/DNSFlip/releases/download/v${VERSION}/DNSFlip-${VERSION}.dmg"
+    } > "build/sparkle.env"
+    echo "Sparkle EdDSA: $SPARKLE_SIG"
+  else
+    echo "⚠  sign_update failed (code ${RC:-?}) — skipping Sparkle signature"
+    [ -z "${SPARKLE_PRIVATE_KEY:-}" ] && echo "   Hint: set SPARKLE_PRIVATE_KEY secret in GitHub"
+  fi
 else
   echo "⚠  bin/sign_update not found — skipping Sparkle signature"
   echo "   Download Sparkle tools: https://github.com/sparkle-project/Sparkle/releases"
