@@ -325,6 +325,10 @@ struct HelperTab: View {
                 .font(.callout)
                 .fixedSize(horizontal: false, vertical: true)
 
+            if store.helperStatus != .enabled {
+                HelperFlowIllustration()
+            }
+
             Divider()
 
             HStack(spacing: 14) {
@@ -451,5 +455,39 @@ struct AboutTab: View {
         }
         .padding(30)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+// MARK: - Helper flow illustration
+
+private struct HelperFlowIllustration: View {
+    var body: some View {
+        HStack(spacing: 20) {
+            FlowStep(symbol: "menubar.rectangle", label: "DNSFlip", color: .accentColor)
+            Image(systemName: "arrow.right").font(.callout).foregroundStyle(.tertiary)
+            FlowStep(symbol: "lock.shield.fill", label: "Helper", color: .blue)
+            Image(systemName: "arrow.right").font(.callout).foregroundStyle(.tertiary)
+            FlowStep(symbol: "network", label: "DNS Système", color: .green)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 14)
+        .background(Color.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+private struct FlowStep: View {
+    let symbol: String
+    let label: String
+    let color: Color
+
+    var body: some View {
+        VStack(spacing: 6) {
+            Image(systemName: symbol)
+                .font(.system(size: 24))
+                .foregroundStyle(color)
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
     }
 }

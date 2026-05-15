@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import Network
 import ServiceManagement
 
 struct NetworkService: Identifiable, Hashable {
@@ -118,23 +119,32 @@ final class AppStore: ObservableObject {
             helperError = String(localized: "Helper non installé — ouvre Réglages → Helper")
             return
         }
-        if networkServices.isEmpty {
-            await fetchServices()
-        }
+        if networkServices.isEmpty { await fetchServices() }
         guard let serviceID = effectiveServiceID() else {
             helperError = String(localized: "Aucun service réseau disponible")
             return
         }
+        // Probe servers concurrently with the XPC call (DHCP = no probe)
+        let probe: Task<Bool, Never>? = profile.servers.isEmpty
+            ? nil
+            : Task.detached { await probeAnyDNSServer(profile.servers) }
         do {
             try await helperClient.setDNS(serviceID: serviceID, servers: profile.servers)
             activeProfileID = profile.id
-            helperError = nil
             applySuccess = true
-            Task {
-                try? await Task.sleep(for: .seconds(1.5))
-                applySuccess = false
+            Task { try? await Task.sleep(for: .seconds(1.5)); applySuccess = false }
+            if !(await probe?.value ?? true) {
+                let msg = String(localized: "Serveur DNS injoignable — la connexion pourrait être affectée")
+                helperError = msg
+                Task {
+                    try? await Task.sleep(for: .seconds(5))
+                    if helperError == msg { helperError = nil }
+                }
+            } else {
+                helperError = nil
             }
         } catch {
+            probe?.cancel()
             helperError = error.localizedDescription
         }
     }
@@ -144,4 +154,59 @@ final class AppStore: ObservableObject {
         if let svc = networkServices.first(where: { $0.active }) { return svc.id }
         return networkServices.first?.id
     }
+}
+
+// MARK: - DNS Probe (file-scope, actor-free)
+
+private func probeAnyDNSServer(_ servers: [String]) async -> Bool {
+    await withTaskGroup(of: Bool.self) { group in
+        for server in servers {
+            group.addTask { await probeDNSServer(server) }
+        }
+        for await ok in group {
+            if ok { group.cancelAll(); return true }
+        }
+        return false
+    }
+}
+
+private func probeDNSServer(_ address: String, timeout: TimeInterval = 2) async -> Bool {
+    await withCheckedContinuation { cont in
+        let conn = NWConnection(
+            to: .hostPort(host: NWEndpoint.Host(address), port: 53),
+            using: .udp
+        )
+        let q = DispatchQueue(label: "dnsflip.probe")
+        var done = false
+        let finish: (Bool) -> Void = { ok in
+            q.async {
+                guard !done else { return }
+                done = true
+                conn.cancel()
+                cont.resume(returning: ok)
+            }
+        }
+        conn.stateUpdateHandler = { state in
+            switch state {
+            case .ready:
+                conn.send(content: dnsQueryData(), completion: .contentProcessed { _ in })
+                conn.receive(minimumIncompleteLength: 1, maximumLength: 512) { data, _, _, error in
+                    finish(data != nil && error == nil)
+                }
+            case .failed, .cancelled:
+                finish(false)
+            default: break
+            }
+        }
+        conn.start(queue: .global())
+        DispatchQueue.global().asyncAfter(deadline: .now() + timeout) { finish(false) }
+    }
+}
+
+private func dnsQueryData() -> Data {
+    // Minimal DNS A query for "dns.google."
+    var d = Data([0x12, 0x34, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+    d += Data([3, 0x64, 0x6e, 0x73, 6, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x00])
+    d += Data([0x00, 0x01, 0x00, 0x01])
+    return d
 }

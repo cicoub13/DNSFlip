@@ -77,3 +77,4 @@
 "Aucun service réseau disponible" = "Aucun service réseau disponible";
 "Impossible de se connecter au helper." = "Impossible de se connecter au helper.";
 "Le helper ne répond pas." = "Le helper ne répond pas.";
+"Serveur DNS injoignable — la connexion pourrait être affectée" = "Serveur DNS injoignable — la connexion pourrait être affectée";
