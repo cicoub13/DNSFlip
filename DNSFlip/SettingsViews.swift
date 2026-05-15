@@ -58,12 +58,22 @@ struct SettingsView: View {
 // MARK: - Sparkle
 
 #if canImport(Sparkle)
+private final class SparkleDelegate: NSObject, SPUUpdaterDelegate {
+    func feedURLString(for updater: SPUUpdater) -> String? {
+        "https://raw.githubusercontent.com/cicoub13/DNSFlip/main/appcast.xml"
+    }
+}
+
 final class SparkleUpdaterViewModel: ObservableObject {
-    private let controller = SPUStandardUpdaterController(
-        startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+    private let delegate = SparkleDelegate()
+    private let controller: SPUStandardUpdaterController
     @Published var canCheckForUpdates = false
 
-    init() { canCheckForUpdates = controller.updater.canCheckForUpdates }
+    init() {
+        controller = SPUStandardUpdaterController(
+            startingUpdater: true, updaterDelegate: delegate, userDriverDelegate: nil)
+        canCheckForUpdates = controller.updater.canCheckForUpdates
+    }
 
     func checkForUpdates() { controller.updater.checkForUpdates() }
 }
