@@ -5,6 +5,14 @@
     <link>https://github.com/cicoub13/DNSFlip</link>
     <description>DNSFlip updates</description>
     <item>
+      <title>Version 1.1.0</title>
+      <pubDate>Fri, 15 May 2026 11:21:55 +0000</pubDate>
+      <sparkle:version>10100</sparkle:version>
+      <sparkle:shortVersionString>1.1.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>13.3</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/cicoub13/DNSFlip/releases/download/v1.1.0/DNSFlip-1.1.0.dmg" length="4858724" type="application/octet-stream" sparkle:edSignature="p7O7h9D+6hds1P/z3LvCkMX+mP4sLGzfh02SHX5WifiY68C3E9GaKtP8Sreb8whtgDo6Rxg3b8bYkxly6URxCQ==" />
+    </item>
+    <item>
       <title>Version 1.0.0</title>
       <pubDate>Thu, 14 May 2026 14:19:19 +0000</pubDate>
       <sparkle:version>100</sparkle:version>
