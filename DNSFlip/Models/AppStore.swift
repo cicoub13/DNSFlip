@@ -124,27 +124,13 @@ final class AppStore: ObservableObject {
             helperError = String(localized: "Aucun service réseau disponible")
             return
         }
-        // Probe servers concurrently with the XPC call (DHCP = no probe)
-        let probe: Task<Bool, Never>? = profile.servers.isEmpty
-            ? nil
-            : Task.detached { await probeAnyDNSServer(profile.servers) }
         do {
             try await helperClient.setDNS(serviceID: serviceID, servers: profile.servers)
             activeProfileID = profile.id
             applySuccess = true
             Task { try? await Task.sleep(for: .seconds(1.5)); applySuccess = false }
-            if !(await probe?.value ?? true) {
-                let msg = String(localized: "Serveur DNS injoignable — la connexion pourrait être affectée")
-                helperError = msg
-                Task {
-                    try? await Task.sleep(for: .seconds(5))
-                    if helperError == msg { helperError = nil }
-                }
-            } else {
-                helperError = nil
-            }
+            helperError = nil
         } catch {
-            probe?.cancel()
             helperError = error.localizedDescription
         }
     }
@@ -158,7 +144,7 @@ final class AppStore: ObservableObject {
 
 // MARK: - DNS Probe (file-scope, actor-free)
 
-private func probeAnyDNSServer(_ servers: [String]) async -> Bool {
+func probeAnyDNSServer(_ servers: [String]) async -> Bool {
     await withTaskGroup(of: Bool.self) { group in
         for server in servers {
             group.addTask { await probeDNSServer(server) }
@@ -170,7 +156,7 @@ private func probeAnyDNSServer(_ servers: [String]) async -> Bool {
     }
 }
 
-private func probeDNSServer(_ address: String, timeout: TimeInterval = 2) async -> Bool {
+func probeDNSServer(_ address: String, timeout: TimeInterval = 2) async -> Bool {
     await withCheckedContinuation { cont in
         let conn = NWConnection(
             to: .hostPort(host: NWEndpoint.Host(address), port: 53),

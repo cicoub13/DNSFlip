@@ -1,5 +1,7 @@
 import SwiftUI
 
+enum ConnectivityState { case testing, reachable, unreachable }
+
 struct ProfileEditorView: View {
     let mode: ProfileEditorMode
     let profileStore: ProfileStore
@@ -7,6 +9,8 @@ struct ProfileEditorView: View {
 
     @State private var name: String
     @State private var serverFields: [String]
+    @State private var connectivity: [String: ConnectivityState] = [:]
+    @State private var probeTask: Task<Void, Never>?
 
     init(mode: ProfileEditorMode, profileStore: ProfileStore, onDismiss: @escaping () -> Void) {
         self.mode = mode
@@ -62,6 +66,7 @@ struct ProfileEditorView: View {
                                                 lineWidth: 1.5
                                             )
                                     )
+                                connectivityIndicator(for: serverFields[idx])
                                 Button {
                                     serverFields.remove(at: idx)
                                     if serverFields.isEmpty { serverFields.append("") }
@@ -92,6 +97,8 @@ struct ProfileEditorView: View {
                 }
             }
             .formStyle(.grouped)
+            .onAppear { probe(debounce: false) }
+            .onChange(of: serverFields) { _ in probe(debounce: true) }
 
             Divider()
             HStack {
@@ -105,6 +112,52 @@ struct ProfileEditorView: View {
             .padding(EdgeInsets(top: 8, leading: 16, bottom: 12, trailing: 16))
         }
         .frame(minWidth: 420, idealWidth: 480)
+        .onDisappear { probeTask?.cancel() }
+    }
+
+    @ViewBuilder
+    private func connectivityIndicator(for field: String) -> some View {
+        let addr = field.trimmingCharacters(in: .whitespaces)
+        if !addr.isEmpty && !fieldIsInvalid(addr) {
+            switch connectivity[addr] {
+            case nil:
+                Color.clear.frame(width: 16, height: 16)
+            case .testing:
+                ProgressView().controlSize(.mini).frame(width: 16, height: 16)
+            case .reachable:
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(Color.green)
+                    .frame(width: 16, height: 16)
+            case .unreachable:
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundStyle(Color.orange)
+                    .frame(width: 16, height: 16)
+            }
+        }
+    }
+
+    private func probe(debounce: Bool) {
+        probeTask?.cancel()
+        probeTask = Task {
+            if debounce { try? await Task.sleep(for: .milliseconds(600)) }
+            guard !Task.isCancelled else { return }
+            let addrs = serverFields
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+                .filter { !$0.isEmpty && isValidIP($0) }
+            let addrSet = Set(addrs)
+            connectivity = connectivity.filter { addrSet.contains($0.key) }
+            for addr in addrs { connectivity[addr] = .testing }
+            await withTaskGroup(of: (String, Bool).self) { group in
+                for addr in addrs {
+                    let a = addr
+                    group.addTask { (a, await probeDNSServer(a)) }
+                }
+                for await (addr, ok) in group {
+                    guard !Task.isCancelled else { return }
+                    connectivity[addr] = ok ? .reachable : .unreachable
+                }
+            }
+        }
     }
 
     private func fieldIsInvalid(_ s: String) -> Bool {

@@ -10,7 +10,7 @@ struct DNSFlipApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            MenuBarContentView(store: store, showSettings: { presentSettings() })
+            MenuBarContentView(store: store, profileStore: store.profileStore, showSettings: { presentSettings() })
         } label: {
             Image(systemName: menuBarSymbol)
                 .accessibilityLabel("DNSFlip")

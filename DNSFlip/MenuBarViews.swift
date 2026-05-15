@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MenuBarContentView: View {
     @ObservedObject var store: AppStore
+    @ObservedObject var profileStore: ProfileStore
     let showSettings: () -> Void
 
     private var activeName: String {
@@ -22,7 +23,7 @@ struct MenuBarContentView: View {
                 .disabled(true)
         }
         Divider()
-        ForEach(store.profileStore.profiles) { profile in
+        ForEach(profileStore.profiles) { profile in
             ProfileMenuItem(
                 profile: profile,
                 isActive: store.activeProfileID == profile.id
